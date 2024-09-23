@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JWT" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\EcommerceAspNet.Communication\EcommerceAspNet.Communication.csproj" />
+    <ProjectReference Include="..\..\shared\EcommerceAspNet.Exception\EcommerceAspNet.Exception.csproj" />
+    <ProjectReference Include="..\EcommerceAspNet.Domain\EcommerceAspNet.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

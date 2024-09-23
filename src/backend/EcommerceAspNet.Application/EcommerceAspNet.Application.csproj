@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="FluentValidator.Core" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\EcommerceAspNet.Communication\EcommerceAspNet.Communication.csproj" />
+    <ProjectReference Include="..\..\shared\EcommerceAspNet.Exception\EcommerceAspNet.Exception.csproj" />
+    <ProjectReference Include="..\EcommerceAspNet.Domain\EcommerceAspNet.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
