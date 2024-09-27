@@ -18,15 +18,25 @@ namespace EcommerceAspNet.Api.Filters
         }
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
+            try
+            {
             var token = _userToken.GetToken();
 
             _validateToken.Validate(token);
 
             var user = await _userByToken.GetUser();
 
-            if(user is null)
+                if (user is null)
+                    throw new UserException("User doesn't exists");
+            
+            }
+            catch (UserException e)
             {
-                throw new UserException("User doesn't exists");
+                throw new UserException(e.ToString());
+            }
+            catch (SystemException)
+            {
+                throw new SystemException("No token or invalid token");
             }
         }
     }

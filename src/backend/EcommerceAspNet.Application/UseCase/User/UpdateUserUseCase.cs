@@ -52,8 +52,8 @@ namespace EcommerceAspNet.Application.UseCase.User
 
             return new ResponseUpdateUser()
             {
-                Email = request.Email,
-                Username = request.Name
+                Email = request.Email!,
+                Username = request.Name!
             };
         }
 
