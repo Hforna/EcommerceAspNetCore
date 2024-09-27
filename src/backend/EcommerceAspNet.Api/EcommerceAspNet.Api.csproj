@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\shared\EcommerceAspNet.Communication\EcommerceAspNet.Communication.csproj" />
     <ProjectReference Include="..\..\shared\EcommerceAspNet.Exception\EcommerceAspNet.Exception.csproj" />
     <ProjectReference Include="..\EcommerceAspNet.Application\EcommerceAspNet.Application.csproj" />
+    <ProjectReference Include="..\EcommerceAspNet.Domain\EcommerceAspNet.Domain.csproj" />
     <ProjectReference Include="..\EcommerceAspNet.Infrastructure\EcommerceAspNet.Infrastructure.csproj" />
   </ItemGroup>
 

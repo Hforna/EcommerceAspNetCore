@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Repository
 {
-    public interface IAddUser
+    public interface IUserWriteOnlyRepository
     {
         public Task Add(UserEntitie user);
+
+        public void Update(UserEntitie user);
     }
 }

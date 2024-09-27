@@ -16,6 +16,9 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
         {
             CreateMap<RequestCreateUser, UserEntitie>()
                 .ForMember(u => u.Password, f => f.Ignore());
+
+            CreateMap<RequestUpdateUser, UserEntitie>()
+                .ForMember(u => u.Password, (f) => f.Ignore());
         }
     }
 }

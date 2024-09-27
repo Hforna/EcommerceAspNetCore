@@ -12,7 +12,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
     {
         public ProjectDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<UserEntitie> User {  get; set; }
+        public DbSet<UserEntitie> Users {  get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

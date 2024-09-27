@@ -19,15 +19,26 @@ namespace EcommerceAspNet.Application.UseCase.User
     {
         private readonly IUserReadOnlyRepository _readOnly;
         private readonly IUnitOfWork _commit;
-        private readonly IAddUser _addUser;
+        private readonly IUserWriteOnlyRepository _addUser;
         private readonly IMapper _mapper;
         private readonly IPasswordCryptography _cryptography;
+
+        public CreateUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork, IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, IPasswordCryptography passwordCryptography)
+        {
+            _readOnly = userReadOnlyRepository;
+            _commit = unitOfWork;
+            _addUser = userWriteOnlyRepository;
+            _mapper = mapper;
+            _cryptography = passwordCryptography;
+        }
+
         public async Task<ResponseCreateUser> Execute(RequestCreateUser request)
         {
             await Validate(request);
 
             var user = _mapper.Map<UserEntitie>(request);
             user.Password = _cryptography.Encrypt(request.Password);
+            user.UserIdentifier = Guid.NewGuid();
 
             await _addUser.Add(user);
 

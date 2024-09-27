@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EcommerceAspNet.Application.UseCase.Repository.User;
+using EcommerceAspNet.Application.Service.Cryptography;
+using EcommerceAspNet.Application.UseCase.Repository.Login;
+using EcommerceAspNet.Application.UseCase.Login;
 
 namespace EcommerceAspNet.Application
 {
@@ -15,11 +19,15 @@ namespace EcommerceAspNet.Application
         public static void AddApplication(this IServiceCollection services)
         { 
             AddRepositories(services);
+            AddAutoMapper(services);
         }
 
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
+            services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
+            services.AddScoped<IPasswordCryptography, PasswordCryptrography>();
+            services.AddScoped<ILoginUseCase, LoginUseCase>();
         }
 
         private static void AddAutoMapper(IServiceCollection services)
