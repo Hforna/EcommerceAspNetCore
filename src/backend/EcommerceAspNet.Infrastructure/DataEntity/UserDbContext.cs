@@ -54,7 +54,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<bool> UsernameExists(string username)
         {
-            return await _dbContext.Users.AnyAsync(x => x.Name == username);
+            return await _dbContext.Users.AnyAsync(x => x.Username == username);
         }
     }
 }
