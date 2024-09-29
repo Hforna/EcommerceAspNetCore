@@ -4,7 +4,7 @@ using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
-using EcommerceAspNet.Domain.storage;
+using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Security.Token;
 using EcommerceAspNet.Infrastructure.ServiceBus;

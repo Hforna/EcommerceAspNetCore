@@ -15,6 +15,8 @@ namespace EcommerceAspNet.Domain.Repository
 
         public Task<bool> UsernameExists(string username);
 
+        public Task<UserEntitie?> UserByIdentifier(Guid uid);
+
         public Task<UserEntitie?> LoginByEmailAndPassword(string email, string password);
     }
 }

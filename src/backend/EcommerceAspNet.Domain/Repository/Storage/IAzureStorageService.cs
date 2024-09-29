@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcommerceAspNet.Domain.storage
+namespace EcommerceAspNet.Domain.Repository.Storage
 {
     public interface IAzureStorageService
     {
         public Task Upload(UserEntitie user, Stream file, string fileName);
+
+        public Task DeleteContainer(UserEntitie user);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Entitie.User;
-using EcommerceAspNet.Domain.storage;
+using EcommerceAspNet.Domain.Repository.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +22,12 @@ namespace EcommerceAspNet.Infrastructure.Storage
 
             var blob = container.GetBlobClient(fileName);
             blob.Upload(file, overwrite: true);
+        }
+
+        public async Task DeleteContainer(UserEntitie user)
+        {
+            var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+            await container.DeleteIfExistsAsync();
         }
     }
 }

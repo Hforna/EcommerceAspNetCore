@@ -3,7 +3,7 @@ using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
-using EcommerceAspNet.Domain.storage;
+using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Exception.Exception;
 using FileTypeChecker.Extensions;
 using FileTypeChecker.Types;
