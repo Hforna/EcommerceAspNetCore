@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.Security.Token
 {
-    public class ValidateToken : IValidateToken
+    public class ValidateToken : JwtTokenSecurityKey ,IValidateToken
     {
         private readonly string _signKey;
 
@@ -24,7 +24,7 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
                 ClockSkew = new TimeSpan(0),
                 ValidateAudience = false,
                 ValidateIssuer = false,
-                IssuerSigningKey = GetSignKey()
+                IssuerSigningKey = AsSecurityKey(_signKey)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -35,13 +35,6 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             var toGuid = Guid.Parse(tokenGuid);
             
             return toGuid;
-        }
-
-        public SecurityKey GetSignKey()
-        {
-            var bytes = Encoding.UTF8.GetBytes(_signKey);
-
-            return new SymmetricSecurityKey(bytes);
         }
     }
 }

@@ -12,5 +12,7 @@ namespace EcommerceAspNet.Domain.Repository
         public Task Add(UserEntitie user);
 
         public void Update(UserEntitie user);
+
+        public Task Delete(Guid uid);
     }
 }

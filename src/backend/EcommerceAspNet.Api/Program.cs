@@ -1,3 +1,4 @@
+using EcommerceAspNet.Api.BackgroundServices;
 using EcommerceAspNet.Api.Filters;
 using EcommerceAspNet.Application;
 using EcommerceAspNet.Domain.Repository.Security;
@@ -52,6 +53,8 @@ builder.Services.AddInstrastructure(builder.Configuration);
 builder.Services.AddScoped<IGetUserLoggedToken, GetUserLoggedToken>();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHostedService<DeleteUserService>();
 
 var app = builder.Build();
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.Security.Token
 {
-    public class GenerateToken : IGenerateToken
+    public class GenerateToken : JwtTokenSecurityKey ,IGenerateToken
     {
         private readonly long _minutesExpire;
         private readonly string _signKey;
@@ -28,7 +28,7 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddMinutes(_minutesExpire),
-                SigningCredentials = new SigningCredentials(GetSignKey(), SecurityAlgorithms.HmacSha256)
+                SigningCredentials = new SigningCredentials(AsSecurityKey(_signKey), SecurityAlgorithms.HmacSha256)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -36,13 +36,6 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             var createToken = tokenHandler.CreateToken(descriptor);
 
             return tokenHandler.WriteToken(createToken);
-        }
-
-        public SecurityKey GetSignKey()
-        {
-            var bytes = Encoding.UTF8.GetBytes(_signKey);
-
-            return new SymmetricSecurityKey(bytes);
         }
     }
 }

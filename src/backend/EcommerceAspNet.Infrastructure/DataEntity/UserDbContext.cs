@@ -27,6 +27,16 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task Delete(Guid uid)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(e => e.UserIdentifier == uid);
+
+            var orders = _dbContext.Orders.Where(o => o.UserId == user!.Id);
+
+            _dbContext.Orders.RemoveRange(orders);
+            _dbContext.Users.Remove(user!);
+        }
+
         public async Task<bool> EmailExists(string email)
         {
             return await _dbContext

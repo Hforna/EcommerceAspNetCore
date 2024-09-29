@@ -1,7 +1,10 @@
-﻿using EcommerceAspNet.Domain.Repository;
+﻿using Azure.Messaging.ServiceBus;
+using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.ServiceBus;
 using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Security.Token;
+using EcommerceAspNet.Infrastructure.ServiceBus;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +25,7 @@ namespace EcommerceAspNet.Infrastructure
             AddRepositories(services, configuration);
             AddSqlServerConnection(services, configuration);
             FluentMsigrator(services, configuration);
+            AddServiceBus(services, configuration);
         }
 
         private static void AddSqlServerConnection(IServiceCollection services, IConfiguration configuration)
@@ -52,6 +56,25 @@ namespace EcommerceAspNet.Infrastructure
             });
 
             services.AddScoped<FluentMigrator.Runner.Processors.ProcessorOptions>();
+        }
+
+        private static void AddServiceBus(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectService = configuration.GetValue<string>("settings:serviceBus:azure");
+
+            var client = new ServiceBusClient(connectService, new ServiceBusClientOptions() {
+                TransportType = ServiceBusTransportType.AmqpWebSockets
+            });
+
+            var sender = new SendDeleteUser(client.CreateSender("user"));
+            services.AddScoped<ISendDeleteUser>(opt => sender);
+
+            var processor = new DeleteUserProcessor(client.CreateProcessor("user", new ServiceBusProcessorOptions()
+            {
+                MaxConcurrentCalls = 1
+            }));
+
+            services.AddSingleton(processor);
         }
     }
 }

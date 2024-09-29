@@ -36,5 +36,14 @@ namespace EcommerceAspNet.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        [AuthenticationUser]
+        public async Task<IActionResult> Delete([FromServices] IRequestDeleteAccount useCase)
+        {
+            await useCase.Execute();
+
+            return NoContent();
+        }
     }
 }

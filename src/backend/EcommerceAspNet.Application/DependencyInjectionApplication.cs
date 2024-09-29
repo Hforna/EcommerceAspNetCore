@@ -29,6 +29,8 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IPasswordCryptography, PasswordCryptrography>();
             services.AddScoped<ILoginUseCase, LoginUseCase>();
             services.AddScoped<IGetProfileUseCase, GetProfileUseCase>();
+            services.AddScoped<IRequestDeleteAccount, RequestDeleteAccountUseCase>();
+            services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
         }
 
         private static void AddAutoMapper(IServiceCollection services)
