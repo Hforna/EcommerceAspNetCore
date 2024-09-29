@@ -7,9 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAspNet.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RequestCreateUser request, [FromServices] ICreateUserUseCase useCase)

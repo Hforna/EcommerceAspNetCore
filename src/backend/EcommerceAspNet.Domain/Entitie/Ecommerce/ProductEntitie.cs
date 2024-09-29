@@ -11,7 +11,8 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public float Price { get; set; }
-        public int Stock { get; set; }
-        public IList<CategoryEntitie> CategoryId { get; set; } = [];
+        public long Stock { get; set; }
+        public string? ImageIdentifier { get; set; }
+        public long CategoryId { get; set; }
     }
 }

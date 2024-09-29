@@ -11,6 +11,8 @@ using EcommerceAspNet.Application.UseCase.Repository.User;
 using EcommerceAspNet.Application.Service.Cryptography;
 using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Application.UseCase.Login;
+using EcommerceAspNet.Application.UseCase.Repository.Product;
+using EcommerceAspNet.Application.UseCase.Product;
 
 namespace EcommerceAspNet.Application
 {
@@ -31,6 +33,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IGetProfileUseCase, GetProfileUseCase>();
             services.AddScoped<IRequestDeleteAccount, RequestDeleteAccountUseCase>();
             services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
+            services.AddScoped<IUpdateImageProductUseCase, UpdateImageProductUseCase>();
         }
 
         private static void AddAutoMapper(IServiceCollection services)

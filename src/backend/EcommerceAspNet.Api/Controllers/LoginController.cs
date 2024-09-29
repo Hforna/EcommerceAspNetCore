@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAspNet.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : BaseController
     {
         [HttpPost]
         [ProducesResponseType(typeof(ResponseCreateUser), StatusCodes.Status200OK)]

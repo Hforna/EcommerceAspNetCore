@@ -1,10 +1,14 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Repository;
+using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
+using EcommerceAspNet.Domain.storage;
 using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Security.Token;
 using EcommerceAspNet.Infrastructure.ServiceBus;
+using EcommerceAspNet.Infrastructure.Storage;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +30,7 @@ namespace EcommerceAspNet.Infrastructure
             AddSqlServerConnection(services, configuration);
             FluentMsigrator(services, configuration);
             AddServiceBus(services, configuration);
+            AddStorageBlob(services, configuration);
         }
 
         private static void AddSqlServerConnection(IServiceCollection services, IConfiguration configuration)
@@ -40,11 +45,18 @@ namespace EcommerceAspNet.Infrastructure
             var minutesExpire = configuration.GetValue<long>("settings:token:minutesExpire");
 
             services.AddScoped<IUnitOfWork, UserDbContext>();
+
+            //User repositories
             services.AddScoped<IUserReadOnlyRepository, UserDbContext>();
             services.AddScoped<IUserWriteOnlyRepository, UserDbContext>();
+
             services.AddScoped<IGenerateToken>(t => new GenerateToken(signKey!, minutesExpire));
             services.AddScoped<IValidateToken>(t => new ValidateToken(signKey!));
             services.AddScoped<IGetUserByToken, GetUserByToken>();
+
+            //Product repositories
+            services.AddScoped<IProductReadOnlyRepository, ProductDbContext>();
+            services.AddScoped<IProductWriteOnlyRepository, ProductDbContext>();
         }
 
         private static void FluentMsigrator(IServiceCollection services, IConfiguration configuration)
@@ -56,6 +68,14 @@ namespace EcommerceAspNet.Infrastructure
             });
 
             services.AddScoped<FluentMigrator.Runner.Processors.ProcessorOptions>();
+        }
+
+        private static void AddStorageBlob(IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetValue<string>("settings:storageBlob:azure");
+            var blobService = new BlobServiceClient(connectionString);
+
+            services.AddScoped<IAzureStorageService>(opt => new AzureStorageService(blobService));
         }
 
         private static void AddServiceBus(IServiceCollection services, IConfiguration configuration)
