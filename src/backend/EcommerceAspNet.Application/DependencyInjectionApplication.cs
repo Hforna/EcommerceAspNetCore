@@ -34,13 +34,14 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IRequestDeleteAccount, RequestDeleteAccountUseCase>();
             services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
             services.AddScoped<IUpdateImageProductUseCase, UpdateImageProductUseCase>();
+            services.AddScoped<ILoginGoogleUseCase, LoginGoogleUseCase>();
         }
 
         private static void AddAutoMapper(IServiceCollection services)
         {
             services.AddScoped(d =>
             
-                new AutoMapper.MapperConfiguration(d => { d.AddProfile(new RequestToEntitie()); }).CreateMapper()
+                new AutoMapper.MapperConfiguration(d => { d.AddProfile(new Mapper()); }).CreateMapper()
             );
         }
     }

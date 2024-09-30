@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using EcommerceAspNet.Domain.Entitie.Ecommerce;
 using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.Storage;
 using System;
@@ -15,9 +16,9 @@ namespace EcommerceAspNet.Infrastructure.Storage
 
         public AzureStorageService(BlobServiceClient blobClient) => _blobClient = blobClient;
 
-        public async Task Upload(UserEntitie user, Stream file, string fileName)
+        public async Task Upload(ProductEntitie product, Stream file, string fileName)
         {
-            var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+            var container = _blobClient.GetBlobContainerClient(product.Name.ToString());
             await container.CreateIfNotExistsAsync();
 
             var blob = container.GetBlobClient(fileName);
@@ -28,6 +29,11 @@ namespace EcommerceAspNet.Infrastructure.Storage
         {
             var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
             await container.DeleteIfExistsAsync();
+        }
+
+        public Task<string> GetUrlImage(string fileName)
+        {
+            
         }
     }
 }

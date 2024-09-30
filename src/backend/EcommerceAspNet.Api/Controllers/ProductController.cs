@@ -14,5 +14,11 @@ namespace EcommerceAspNet.Api.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts()
+        {
+
+        }
     }
 }

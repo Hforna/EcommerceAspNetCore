@@ -13,6 +13,8 @@ namespace EcommerceAspNet.Domain.Repository
 
         public Task<bool> PasswordEqual(UserEntitie user, string password);
 
+        public Task<UserEntitie?> UserByEmail(string email);
+
         public Task<bool> UsernameExists(string username);
 
         public Task<UserEntitie?> UserByIdentifier(Guid uid);

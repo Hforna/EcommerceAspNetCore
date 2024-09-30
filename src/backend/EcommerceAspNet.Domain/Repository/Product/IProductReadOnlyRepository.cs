@@ -10,5 +10,7 @@ namespace EcommerceAspNet.Domain.Repository.Product
     public interface IProductReadOnlyRepository
     {
         public Task<ProductEntitie?> ProductById(long id);
+
+        public Task<IList<ProductEntitie>?> GetProducts();
     }
 }

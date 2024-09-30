@@ -62,6 +62,11 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.Update(user);
         }
 
+        public async Task<UserEntitie?> UserByEmail(string email)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public async Task<UserEntitie?> UserByIdentifier(Guid uid)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(d => d.UserIdentifier == uid);

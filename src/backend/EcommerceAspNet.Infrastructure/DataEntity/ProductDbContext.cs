@@ -15,6 +15,11 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public ProductDbContext(ProjectDbContext dbContext) => _dbContext = dbContext;
 
+        public async Task<IList<ProductEntitie>?> GetProducts()
+        {
+            return await _dbContext.Products.Where(d => d.Active == true).ToListAsync();
+        }
+
         public async Task<ProductEntitie?> ProductById(long id)
         {
             return await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);

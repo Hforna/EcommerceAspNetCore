@@ -55,7 +55,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
 
             await _unitOfWork.Commit();
 
-            await _storage.Upload(user!, fileStream, product.ImageIdentifier);
+            await _storage.Upload(product!, fileStream, product.ImageIdentifier);
         }
     }
 }

@@ -4,6 +4,8 @@ using EcommerceAspNet.Application;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Infrastructure;
 using EcommerceAspNet.Infrastructure.Migration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -58,6 +60,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHostedService<DeleteUserService>();
 
+AddAuthentication();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,6 +80,22 @@ app.MapControllers();
 var dd = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
 DatabaseMigration.Migrate(builder.Configuration.GetConnectionString("sqlserverconnection")!, dd.ServiceProvider);
+
+void AddAuthentication()
+{
+    var clientId = builder.Configuration.GetValue<string>("settings:google:clientId")!;
+    var clientSecret = builder.Configuration.GetValue<string>("settings:google:clientSecret")!;
+
+    builder.Services.AddAuthentication(d =>
+    {
+        d.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    }).AddCookie()
+    .AddGoogle(d =>
+    {
+        d.ClientId = clientId;
+        d.ClientSecret = clientSecret;
+    });
+}
 
 app.Run();
 
