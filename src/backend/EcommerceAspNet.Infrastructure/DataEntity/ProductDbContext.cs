@@ -15,6 +15,16 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public ProductDbContext(ProjectDbContext dbContext) => _dbContext = dbContext;
 
+        public void Delete(ProductEntitie product)
+        {            
+            _dbContext.Products.Remove(product);
+        }
+
+        public async Task<ProductEntitie?> GetProductByUid(Guid uid)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid);
+        }
+
         public async Task<IList<ProductEntitie>?> GetProducts()
         {
             return await _dbContext.Products.Where(d => d.Active == true).ToListAsync();

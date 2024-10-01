@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using EcommerceAspNet.Domain.Entitie.Ecommerce;
 using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
 using System;
@@ -9,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.ServiceBus
 {
-    public class SendDeleteUser : ISendDeleteUser
+    public class SendProductUser : ISendDeleteProduct
     { 
         private readonly ServiceBusSender _serviceBusSender;
 
-        public SendDeleteUser(ServiceBusSender serviceBusSender) => _serviceBusSender = serviceBusSender;
+        public SendProductUser(ServiceBusSender serviceBusSender) => _serviceBusSender = serviceBusSender;
 
-        public async Task SendMessage(UserEntitie user)
+        public async Task SendMessage(ProductEntitie product)
         {
-            await _serviceBusSender.SendMessageAsync(new ServiceBusMessage(user.UserIdentifier.ToString()));
+            await _serviceBusSender.SendMessageAsync(new ServiceBusMessage(product.ProductIdentifier.ToString()));
         }
     }
 }

@@ -37,8 +37,6 @@ namespace EcommerceAspNet.Application.UseCase.Product
         {
             var product = await _repositoryRead.ProductById(id);
 
-            var user = await _userLogged.GetUser();
-
             if (product is null)
                 throw new ProductException("Product doesn't exist");
 

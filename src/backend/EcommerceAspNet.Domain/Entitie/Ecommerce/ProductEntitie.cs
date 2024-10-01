@@ -14,5 +14,6 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         public long Stock { get; set; }
         public string? ImageIdentifier { get; set; }
         public long CategoryId { get; set; }
+        public Guid ProductIdentifier { get; set; } = Guid.NewGuid();
     }
 }

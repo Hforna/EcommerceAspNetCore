@@ -1,5 +1,6 @@
 ﻿
 using Azure.Messaging.ServiceBus;
+using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Application.UseCase.Repository.User;
 using EcommerceAspNet.Infrastructure.ServiceBus;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
@@ -7,12 +8,12 @@ using System.Runtime.CompilerServices;
 
 namespace EcommerceAspNet.Api.BackgroundServices
 {
-    public class DeleteUserService : BackgroundService
+    public class DeleteProductService : BackgroundService
     {
         private readonly ServiceBusProcessor _processor;
         private readonly IServiceProvider _serviceProvider;
 
-        public DeleteUserService(DeleteUserProcessor processor, IServiceProvider serviceProvider)
+        public DeleteProductService(DeleteProductProcessor processor, IServiceProvider serviceProvider)
         {
             _processor = processor.GetProcessor();
             _serviceProvider = serviceProvider;            
@@ -32,16 +33,16 @@ namespace EcommerceAspNet.Api.BackgroundServices
             var message = args.Message.Body.ToString();
 
             var scope = _serviceProvider.CreateScope();
-            var useCase = scope.ServiceProvider.GetRequiredService<IDeleteUserUseCase>();
+            var useCase = scope.ServiceProvider.GetRequiredService<IDeleteProductUseCase>();
 
-            var userIdentifier = Guid.Parse(message);
+            var productIdentifier = Guid.Parse(message);
 
-            await useCase.Execute(userIdentifier);
+            await useCase.Execute(productIdentifier);
         }
 
         private async Task ProcessErrorAsync(ProcessErrorEventArgs args) => await Task.CompletedTask;
 
-        ~DeleteUserService() => Dispose();
+        ~DeleteProductService() => Dispose();
 
         public override void Dispose()
         {

@@ -58,7 +58,7 @@ builder.Services.AddScoped<IGetUserLoggedToken, GetUserLoggedToken>();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHostedService<DeleteUserService>();
+builder.Services.AddHostedService<DeleteProductService>();
 
 AddAuthentication();
 

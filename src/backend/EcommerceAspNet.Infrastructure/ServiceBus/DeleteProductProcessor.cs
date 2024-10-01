@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.ServiceBus
 {
-    public class DeleteUserProcessor
+    public class DeleteProductProcessor
     {
         private readonly ServiceBusProcessor _busProcessor;
 
-        public DeleteUserProcessor(ServiceBusProcessor busProcessor) => _busProcessor = busProcessor;
+        public DeleteProductProcessor(ServiceBusProcessor busProcessor) => _busProcessor = busProcessor;
 
         public ServiceBusProcessor GetProcessor() => _busProcessor;
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcommerceAspNet.Application.UseCase.Repository.User
+namespace EcommerceAspNet.Application.UseCase.Repository.Product
 {
-    public interface IDeleteUserUseCase
+    public interface IDeleteProductUseCase
     {
         public Task Execute(Guid uid);
     }

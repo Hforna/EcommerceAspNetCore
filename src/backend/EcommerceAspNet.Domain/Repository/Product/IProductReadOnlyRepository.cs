@@ -12,5 +12,7 @@ namespace EcommerceAspNet.Domain.Repository.Product
         public Task<ProductEntitie?> ProductById(long id);
 
         public Task<IList<ProductEntitie>?> GetProducts();
+
+        public Task<ProductEntitie?> GetProductByUid(Guid uid);
     }
 }

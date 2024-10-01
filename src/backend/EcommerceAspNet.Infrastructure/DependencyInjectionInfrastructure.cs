@@ -86,10 +86,10 @@ namespace EcommerceAspNet.Infrastructure
                 TransportType = ServiceBusTransportType.AmqpWebSockets
             });
 
-            var sender = new SendDeleteUser(client.CreateSender("user"));
-            services.AddScoped<ISendDeleteUser>(opt => sender);
+            var sender = new SendProductUser(client.CreateSender("product"));
+            services.AddScoped<ISendDeleteProduct>(opt => sender);
 
-            var processor = new DeleteUserProcessor(client.CreateProcessor("user", new ServiceBusProcessorOptions()
+            var processor = new DeleteProductProcessor(client.CreateProcessor("product", new ServiceBusProcessorOptions()
             {
                 MaxConcurrentCalls = 1
             }));

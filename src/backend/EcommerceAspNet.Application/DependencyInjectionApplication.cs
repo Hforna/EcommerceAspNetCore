@@ -32,9 +32,11 @@ namespace EcommerceAspNet.Application
             services.AddScoped<ILoginUseCase, LoginUseCase>();
             services.AddScoped<IGetProfileUseCase, GetProfileUseCase>();
             services.AddScoped<IRequestDeleteAccount, RequestDeleteAccountUseCase>();
-            services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
+            services.AddScoped<IDeleteProductUseCase, DeleteProductUseCase>();
             services.AddScoped<IUpdateImageProductUseCase, UpdateImageProductUseCase>();
+            services.AddScoped<IRequestDeleteProduct, RequestDeleteProductUseCase>();
             services.AddScoped<ILoginGoogleUseCase, LoginGoogleUseCase>();
+            services.AddScoped<IGetProducts, GetProductsUseCase>();
         }
 
         private static void AddAutoMapper(IServiceCollection services)

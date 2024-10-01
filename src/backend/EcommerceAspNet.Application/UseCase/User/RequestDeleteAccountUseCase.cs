@@ -16,9 +16,9 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IGetUserByToken _getUser;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserWriteOnlyRepository _writeRepository;
-        private readonly ISendDeleteUser _send;
+        private readonly ISendDeleteProduct _send;
 
-        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, IUserWriteOnlyRepository writeRepository, ISendDeleteUser send)
+        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, IUserWriteOnlyRepository writeRepository, ISendDeleteProduct send)
         {
             _getUser = getUser;
             _unitOfWork = unitOfWork;
@@ -30,11 +30,8 @@ namespace EcommerceAspNet.Application.UseCase.User
         {
             var user = await _getUser.GetUser() ?? throw new UserException("User doesn't exists");
 
-            user.Active = false;
-            _writeRepository.Update(user);
+            await _writeRepository.Delete(user.UserIdentifier);
             await _unitOfWork.Commit();
-
-            await _send.SendMessage(user);
         }
     }
 }
