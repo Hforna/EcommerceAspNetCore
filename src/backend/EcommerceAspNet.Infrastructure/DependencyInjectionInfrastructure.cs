@@ -1,10 +1,12 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Repository;
+using EcommerceAspNet.Domain.Repository.Order;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
 using EcommerceAspNet.Domain.Repository.Storage;
+using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Security.Token;
 using EcommerceAspNet.Infrastructure.ServiceBus;
@@ -57,6 +59,10 @@ namespace EcommerceAspNet.Infrastructure
             //Product repositories
             services.AddScoped<IProductReadOnlyRepository, ProductDbContext>();
             services.AddScoped<IProductWriteOnlyRepository, ProductDbContext>();
+
+            //Order repositories
+            services.AddScoped<IOrderReadOnlyRepository, OrderDbContext>();
+            services.AddScoped<IOrderWriteOnlyRepository, OrderDbContext>();
         }
 
         private static void FluentMsigrator(IServiceCollection services, IConfiguration configuration)

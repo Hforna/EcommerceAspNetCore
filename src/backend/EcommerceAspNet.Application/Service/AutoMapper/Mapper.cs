@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EcommerceAspNet.Communication.Request.User;
+using EcommerceAspNet.Communication.Response.Order;
 using EcommerceAspNet.Communication.Response.Product;
 using EcommerceAspNet.Domain.Entitie.Ecommerce;
 using EcommerceAspNet.Domain.Entitie.User;
@@ -34,6 +35,13 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
             CreateMap<ProductEntitie, ResponseProductShort>()
                 .ForMember(d => d.ImageUrl, f => f.Ignore())
                 .ForMember(d => d.Id, f => f.Ignore());
+
+            CreateMap<Order, ResponseUserOrder>()
+                .ForMember(d => d.TotalPrice, f => f.MapFrom(d => d.TotalPrice));
+
+            CreateMap<OrderItemEntitie, ResponseOrderItem>();
+                
+
         }
     }
 }

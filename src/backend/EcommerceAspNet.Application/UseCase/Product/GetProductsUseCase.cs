@@ -3,6 +3,7 @@ using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Communication.Response.Product;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Storage;
+using Sqids;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,14 @@ namespace EcommerceAspNet.Application.UseCase.Product
         private readonly IProductReadOnlyRepository _repository;
         private readonly IAzureStorageService _storageService;
         private readonly IMapper _mapper;
+        private readonly SqidsEncoder<long> _sqids;
 
-        public GetProductsUseCase(IProductReadOnlyRepository repository, IAzureStorageService storageService, IMapper mapper)
+        public GetProductsUseCase(IProductReadOnlyRepository repository, IAzureStorageService storageService, IMapper mapper, SqidsEncoder<long>sqids)
         {
             _repository = repository;
             _storageService = storageService;
             _mapper = mapper;
+            _sqids = sqids;
         }
 
         public async Task<ResponseProductsJson> Execute()
@@ -33,7 +36,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
                 var response = _mapper.Map<ResponseProductShort>(product);
 
                 response.ImageUrl = await _storageService.GetUrlImage(product, product.ImageIdentifier!);
-                response.Id = product.Id;
+                response.Id = _sqids.Encode(product.Id);
 
                 return response;
             });

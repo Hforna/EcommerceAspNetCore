@@ -2,6 +2,7 @@
 using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

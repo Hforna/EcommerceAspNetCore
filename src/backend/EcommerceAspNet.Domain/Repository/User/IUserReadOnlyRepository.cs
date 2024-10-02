@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EcommerceAspNet.Domain.Repository
+namespace EcommerceAspNet.Domain.Repository.User
 {
     public interface IUserReadOnlyRepository
     {

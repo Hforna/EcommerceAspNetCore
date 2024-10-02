@@ -12,6 +12,6 @@ namespace EcommerceAspNet.Communication.Response.Product
         public string Description { get; set; } = string.Empty;
         public string? ImageUrl { get; set; }
         public float Price { get; set; }
-        public long Id { get; set; }
+        public string Id { get; set; } = string.Empty;
     }
 }

@@ -13,15 +13,20 @@ using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Application.UseCase.Login;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Application.UseCase.Product;
+using Microsoft.Extensions.Configuration;
+using Sqids;
+using EcommerceAspNet.Application.UseCase.Repository.Order;
+using EcommerceAspNet.Application.UseCase.Order;
 
 namespace EcommerceAspNet.Application
 {
     public static class DependencyInjectionApplication
     {
-        public static void AddApplication(this IServiceCollection services)
+        public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         { 
             AddRepositories(services);
             AddAutoMapper(services);
+            AddSqids(services, configuration);
         }
 
         private static void AddRepositories(IServiceCollection services)
@@ -37,6 +42,21 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IRequestDeleteProduct, RequestDeleteProductUseCase>();
             services.AddScoped<ILoginGoogleUseCase, LoginGoogleUseCase>();
             services.AddScoped<IGetProducts, GetProductsUseCase>();
+            services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
+        }
+
+        private static void AddSqids(IServiceCollection services, IConfiguration configuration)
+        {
+            var alphabet = configuration.GetValue<string>("settings:sqIds:Alphabet")!;
+            var digits = configuration.GetValue<int>("settings:sqIds:Digits");
+
+            var sqids = new SqidsEncoder<long>(new SqidsOptions()
+            {
+                Alphabet = alphabet,
+                MinLength = digits,
+            });
+
+            services.AddSingleton(sqids);
         }
 
         private static void AddAutoMapper(IServiceCollection services)

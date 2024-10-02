@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Entitie.Ecommerce
 {
-    public class OrderEntitie : BaseEntitie
+    public class Order : BaseEntitie
     {
         public long UserId { get; set; }
+        public float TotalPrice { get; set; }
+        public IList<OrderItemEntitie?> OrderItems { get; set; }
     }
 }

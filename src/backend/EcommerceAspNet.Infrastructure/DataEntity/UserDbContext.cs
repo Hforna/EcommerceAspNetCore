@@ -1,5 +1,6 @@
 ﻿using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
+using EcommerceAspNet.Domain.Repository.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

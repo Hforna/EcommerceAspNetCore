@@ -2,8 +2,8 @@
 using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Communication.Request.User;
 using EcommerceAspNet.Communication.Response.User;
-using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Exception.Exception;
 using System;
 using System.Collections.Generic;
