@@ -2,12 +2,14 @@
 using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Order;
+using EcommerceAspNet.Domain.Repository.Payment;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
 using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Infrastructure.DataEntity;
+using EcommerceAspNet.Infrastructure.Payment;
 using EcommerceAspNet.Infrastructure.Security.Token;
 using EcommerceAspNet.Infrastructure.ServiceBus;
 using EcommerceAspNet.Infrastructure.Storage;
@@ -33,6 +35,7 @@ namespace EcommerceAspNet.Infrastructure
             FluentMsigrator(services, configuration);
             AddServiceBus(services, configuration);
             AddStorageBlob(services, configuration);
+            AddPayment(services, configuration);
         }
 
         private static void AddSqlServerConnection(IServiceCollection services, IConfiguration configuration)
@@ -82,6 +85,11 @@ namespace EcommerceAspNet.Infrastructure
             var blobService = new BlobServiceClient(connectionString);
 
             services.AddScoped<IAzureStorageService>(opt => new AzureStorageService(blobService));
+        }
+
+        private static void AddPayment(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IStripeService, StripeService>();
         }
 
         private static void AddServiceBus(IServiceCollection services, IConfiguration configuration)

@@ -17,6 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Sqids;
 using EcommerceAspNet.Application.UseCase.Repository.Order;
 using EcommerceAspNet.Application.UseCase.Order;
+using EcommerceAspNet.Application.UseCase.Repository.Payment;
+using EcommerceAspNet.Application.UseCase.Payment;
 
 namespace EcommerceAspNet.Application
 {
@@ -43,6 +45,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<ILoginGoogleUseCase, LoginGoogleUseCase>();
             services.AddScoped<IGetProducts, GetProductsUseCase>();
             services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
+            services.AddScoped<IStripeUseCase, StripeUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)
