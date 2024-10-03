@@ -2,6 +2,7 @@ using EcommerceAspNet.Api.BackgroundServices;
 using EcommerceAspNet.Api.Filters;
 using EcommerceAspNet.Application;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Filters;
 using EcommerceAspNet.Infrastructure;
 using EcommerceAspNet.Infrastructure.Migration;
 using Microsoft.AspNetCore.Authentication;
@@ -22,6 +23,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
+    options.OperationFilter<FilterBindId>();
+
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme.

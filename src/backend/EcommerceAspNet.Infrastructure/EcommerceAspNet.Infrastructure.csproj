@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.22.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="FluentMigrator" Version="6.0.0" />
     <PackageReference Include="FluentMigrator.Runner" Version="6.0.0" />

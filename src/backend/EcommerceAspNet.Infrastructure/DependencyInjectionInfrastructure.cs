@@ -5,11 +5,13 @@ using EcommerceAspNet.Domain.Repository.Order;
 using EcommerceAspNet.Domain.Repository.Payment;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.Security.Cryptography;
 using EcommerceAspNet.Domain.Repository.ServiceBus;
 using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Payment;
+using EcommerceAspNet.Infrastructure.Security.Cryptography;
 using EcommerceAspNet.Infrastructure.Security.Token;
 using EcommerceAspNet.Infrastructure.ServiceBus;
 using EcommerceAspNet.Infrastructure.Storage;
@@ -54,6 +56,7 @@ namespace EcommerceAspNet.Infrastructure
             //User repositories
             services.AddScoped<IUserReadOnlyRepository, UserDbContext>();
             services.AddScoped<IUserWriteOnlyRepository, UserDbContext>();
+            services.AddScoped<IPasswordCryptography, BCryptNet>();
 
             services.AddScoped<IGenerateToken>(t => new GenerateToken(signKey!, minutesExpire));
             services.AddScoped<IValidateToken>(t => new ValidateToken(signKey!));

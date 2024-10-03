@@ -1,4 +1,5 @@
 ﻿using EcommerceAspNet.Api.Attibutes;
+using EcommerceAspNet.Api.Binders;
 using EcommerceAspNet.Application.UseCase.Repository.Order;
 using EcommerceAspNet.Communication.Response.Order;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ namespace EcommerceAspNet.Api.Controllers
         [Route("{Id}")]
         [AuthenticationUser]
         [ProducesResponseType(typeof(ResponseOrderItem), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddProduct([FromServices] IAddOrderUseCase useCase, long Id)
+        public async Task<IActionResult> AddProduct([FromServices] IAddOrderUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))] long Id)
         {
             var result = await useCase.Execute(Id);
 

@@ -1,8 +1,8 @@
-﻿using EcommerceAspNet.Application.Service.Cryptography;
-using EcommerceAspNet.Application.UseCase.Repository.Login;
+﻿using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Communication.Request.User;
 using EcommerceAspNet.Communication.Response.User;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.Security.Cryptography;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Exception.Exception;
 using System;
@@ -28,9 +28,10 @@ namespace EcommerceAspNet.Application.UseCase.Login
 
         public async Task<ResponseCreateUser> Execute(RequestLoginUser request)
         {
-            var password = _cryptography.Encrypt(request.Password);
+            var user = await _readRepository.LoginByEmail(request.Email);
 
-            var user = await _readRepository.LoginByEmailAndPassword(request.Email, password) ?? throw new UserException("User doesn't exists");
+            if (user is null || _cryptography.IsValid(request.Password, user.Password))
+                throw new UserException("E-mail or password invalid");
 
             var token = _generateToken.Generate(user.UserIdentifier);
 

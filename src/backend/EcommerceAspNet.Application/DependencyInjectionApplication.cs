@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EcommerceAspNet.Application.UseCase.Repository.User;
-using EcommerceAspNet.Application.Service.Cryptography;
 using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Application.UseCase.Login;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
@@ -35,7 +34,6 @@ namespace EcommerceAspNet.Application
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
-            services.AddScoped<IPasswordCryptography, PasswordCryptrography>();
             services.AddScoped<ILoginUseCase, LoginUseCase>();
             services.AddScoped<IGetProfileUseCase, GetProfileUseCase>();
             services.AddScoped<IRequestDeleteAccount, RequestDeleteAccountUseCase>();

@@ -45,12 +45,12 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
                 .AnyAsync(x => x.Email == email);
         }
 
-        public async Task<UserEntitie?> LoginByEmailAndPassword(string email, string password)
+        public async Task<UserEntitie?> LoginByEmail(string email)
         {
             return await _dbContext
                 .Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Active && e.Email == email && e.Password == password);
+                .FirstOrDefaultAsync(e => e.Active && e.Email == email);
         }
 
         public async Task<bool> PasswordEqual(UserEntitie user, string password)

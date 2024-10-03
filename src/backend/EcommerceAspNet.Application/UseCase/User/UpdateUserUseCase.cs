@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EcommerceAspNet.Application.Service.Cryptography;
 using EcommerceAspNet.Application.UseCase.Repository.User;
 using EcommerceAspNet.Application.Validator;
 using EcommerceAspNet.Communication.Request.User;
@@ -7,6 +6,7 @@ using EcommerceAspNet.Communication.Response.User;
 using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.Security.Cryptography;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Exception.Exception;
 using System;

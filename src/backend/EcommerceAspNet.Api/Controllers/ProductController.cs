@@ -1,4 +1,5 @@
 ﻿using EcommerceAspNet.Api.Attibutes;
+using EcommerceAspNet.Api.Binders;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace EcommerceAspNet.Api.Controllers
         [AuthenticationUser]
         [HttpPut]
         [Route("{Id}")]
-        public async Task<IActionResult> UpdateImage(IFormFile file, [FromServices] IUpdateImageProductUseCase useCase, long Id)
+        public async Task<IActionResult> UpdateImage(IFormFile file, [FromServices] IUpdateImageProductUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
         {
             await useCase.Execute(file, Id);
 
@@ -29,7 +30,7 @@ namespace EcommerceAspNet.Api.Controllers
         [AuthenticationUser]
         [HttpDelete]
         [Route("Id")]
-        public async Task<IActionResult> Delete([FromServices]IRequestDeleteProduct useCase, long Id)
+        public async Task<IActionResult> Delete([FromServices]IRequestDeleteProduct useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
         {
             await useCase.Execute(Id);
 
