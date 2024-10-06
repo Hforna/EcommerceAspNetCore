@@ -47,6 +47,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
             services.AddScoped<IStripeUseCase, StripeUseCase>();
             services.AddScoped<ICreateComment, CreateCommentUseCase>();
+            services.AddScoped<IUpdateImageUser, UpdateImageUserUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

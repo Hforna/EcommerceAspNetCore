@@ -12,6 +12,8 @@ namespace EcommerceAspNet.Domain.Repository.Storage
     {
         public Task Upload(ProductEntitie product, Stream file, string fileName);
 
+        public Task UploadUser(UserEntitie user, Stream file, string fileName);
+
         public Task DeleteContainer(ProductEntitie product);
 
         public Task<string> GetUrlImage(ProductEntitie product, string fileName);

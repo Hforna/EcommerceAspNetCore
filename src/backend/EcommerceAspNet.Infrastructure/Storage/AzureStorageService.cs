@@ -59,5 +59,14 @@ namespace EcommerceAspNet.Infrastructure.Storage
 
             return string.Empty;
         }
+
+        public async Task UploadUser(UserEntitie user, Stream file, string fileName)
+        {
+            var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+            await container.CreateIfNotExistsAsync();
+
+            var client = container.GetBlobClient(fileName);
+            await client.UploadAsync(file, overwrite: true);
+        }
     }
 }

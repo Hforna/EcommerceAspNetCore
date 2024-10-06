@@ -35,6 +35,15 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
+        [AuthenticationUser]
+        [HttpPut("update-image")]
+        public async Task<IActionResult> UpdateImage(IFormFile file, [FromServices] IUpdateImageUser useCase)
+        {
+            await useCase.Execute(file);
+
+            return NoContent();
+        }
+
         [HttpDelete]
         [AuthenticationUser]
         public async Task<IActionResult> Delete([FromServices] IRequestDeleteAccount useCase)
