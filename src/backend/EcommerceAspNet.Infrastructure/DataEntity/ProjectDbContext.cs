@@ -18,6 +18,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
         public DbSet<CategoryEntitie> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItemEntitie> OrderItems { get; set; }
+        public DbSet<CommentEntitie> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

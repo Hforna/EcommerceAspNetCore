@@ -56,6 +56,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddApplication(builder.Configuration);
+
 builder.Services.AddInstrastructure(builder.Configuration);
 
 builder.Services.AddScoped<IGetUserLoggedToken, GetUserLoggedToken>();

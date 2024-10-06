@@ -18,6 +18,8 @@ using EcommerceAspNet.Application.UseCase.Repository.Order;
 using EcommerceAspNet.Application.UseCase.Order;
 using EcommerceAspNet.Application.UseCase.Repository.Payment;
 using EcommerceAspNet.Application.UseCase.Payment;
+using EcommerceAspNet.Application.UseCase.Repository.Comment;
+using EcommerceAspNet.Application.UseCase.Comment;
 
 namespace EcommerceAspNet.Application
 {
@@ -44,6 +46,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IGetProducts, GetProductsUseCase>();
             services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
             services.AddScoped<IStripeUseCase, StripeUseCase>();
+            services.AddScoped<ICreateComment, CreateCommentUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)
@@ -63,8 +66,11 @@ namespace EcommerceAspNet.Application
         private static void AddAutoMapper(IServiceCollection services)
         {
             services.AddScoped(d =>
-            
-                new AutoMapper.MapperConfiguration(d => { d.AddProfile(new Mapper()); }).CreateMapper()
+                new AutoMapper.MapperConfiguration(s =>
+                {
+                    var sqids = d.GetService<SqidsEncoder<long>>()!;
+                    s.AddProfile(new Mapper(sqids));
+                }).CreateMapper()
             );
         }
     }

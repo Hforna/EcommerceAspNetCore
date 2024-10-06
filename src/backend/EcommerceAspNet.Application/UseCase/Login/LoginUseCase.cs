@@ -30,7 +30,7 @@ namespace EcommerceAspNet.Application.UseCase.Login
         {
             var user = await _readRepository.LoginByEmail(request.Email);
 
-            if (user is null || _cryptography.IsValid(request.Password, user.Password))
+            if (user is null || _cryptography.IsValid(request.Password, user.Password) == false)
                 throw new UserException("E-mail or password invalid");
 
             var token = _generateToken.Generate(user.UserIdentifier);

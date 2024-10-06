@@ -61,7 +61,7 @@ namespace EcommerceAspNet.Application.UseCase.User
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, "E-mail already exists"));
             }
 
-            if (await _readOnly.UsernameExists(request.Name!) == true)
+            if (await _readOnly.UsernameExists(request.Username!) == true)
                 result.Errors.Add(new FluentValidation.Results.ValidationFailure() { ErrorMessage = "Username already exists" });
 
             if (result.IsValid == false)

@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Repository;
+using EcommerceAspNet.Domain.Repository.Comment;
 using EcommerceAspNet.Domain.Repository.Order;
 using EcommerceAspNet.Domain.Repository.Payment;
 using EcommerceAspNet.Domain.Repository.Product;
@@ -69,6 +70,10 @@ namespace EcommerceAspNet.Infrastructure
             //Order repositories
             services.AddScoped<IOrderReadOnlyRepository, OrderDbContext>();
             services.AddScoped<IOrderWriteOnlyRepository, OrderDbContext>();
+
+            //Comment repositories
+            services.AddScoped<ICommentWriteOnlyRepository, CommentDbContext>();
+            services.AddScoped<ICommentReadOnlyRepository, CommentDbContext>();
         }
 
         private static void FluentMsigrator(IServiceCollection services, IConfiguration configuration)
