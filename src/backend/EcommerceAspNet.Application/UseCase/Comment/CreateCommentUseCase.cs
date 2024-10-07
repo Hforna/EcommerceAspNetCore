@@ -4,6 +4,7 @@ using EcommerceAspNet.Application.Validator;
 using EcommerceAspNet.Communication.Request.Comment;
 using EcommerceAspNet.Communication.Response.Comment;
 using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Comment;
 using EcommerceAspNet.Domain.Repository.Security;
@@ -40,11 +41,21 @@ namespace EcommerceAspNet.Application.UseCase.Comment
 
             var user = await _userByToken.GetUser();
 
-            var product = _mapper.Map<CommentEntitie>(request);
-            product.UserId = user.Id;
+            var comment = _mapper.Map<CommentEntitie>(request);
 
-            _repositoryWrite.Add(product);
+            if(user is null)
+                comment.UserId = null;
+
+            _repositoryWrite.Add(comment);
             await _unitOfWork.Commit();
+
+            if (user is null)
+                return new ResponseComment()
+                {
+                    Text = request.Text,
+                    Note = request.Note,
+                    Username = "Anonymous"
+                };
 
             return new ResponseComment()
             {

@@ -12,6 +12,9 @@ namespace EcommerceAspNet.Api.Filters
         {
             var token = HttpAccessor!.HttpContext!.Request.Headers.Authorization.ToString();
 
+            if (string.IsNullOrEmpty(token))
+                return string.Empty;
+
             return token["Bearer ".Length..].Trim();
         }
     }

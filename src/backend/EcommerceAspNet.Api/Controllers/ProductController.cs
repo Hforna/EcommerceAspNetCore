@@ -20,6 +20,15 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpGet]
+        [Route("{Id}")]
+        public async Task<IActionResult> GetProduct([FromRoute][ModelBinder(typeof(BinderId))] long Id, [FromServices] IGetProduct useCase)
+        {
+            var result = await useCase.Execute(Id);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase)
         {
             var result = await useCase.Execute();

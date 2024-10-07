@@ -27,6 +27,9 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
         {
             var token = _userLoggedToken.GetToken();
 
+            if (string.IsNullOrEmpty(token))
+                return null;
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var readToken = tokenHandler.ReadJwtToken(token);
             var guidToken = Guid.Parse(readToken.Claims.First(d => d.Type == ClaimTypes.Sid).Value);

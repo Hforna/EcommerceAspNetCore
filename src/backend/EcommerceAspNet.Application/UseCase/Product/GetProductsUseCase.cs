@@ -35,7 +35,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
             {
                 var response = _mapper.Map<ResponseProductShort>(product);
 
-                response.ImageUrl = await _storageService.GetUrlImage(product, product.ImageIdentifier!);
+                response.ImageUrl = await _storageService.GetUrlImageProduct(product, product.ImageIdentifier!);
                 response.Id = _sqids.Encode(product.Id);
 
                 return response;

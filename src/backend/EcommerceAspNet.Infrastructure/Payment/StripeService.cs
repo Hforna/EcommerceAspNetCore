@@ -40,7 +40,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
             foreach(var item in order.OrderItems)
             {
                 var product = await _repositoryProductRead.ProductById(item!.productId);
-                var imageUrl = await _storageService.GetUrlImage(product!, product!.ImageIdentifier!);
+                var imageUrl = await _storageService.GetUrlImageProduct(product!, product!.ImageIdentifier!);
                 var imagesUrl = new List<string>();
 
                 imagesUrl.Add(imageUrl);

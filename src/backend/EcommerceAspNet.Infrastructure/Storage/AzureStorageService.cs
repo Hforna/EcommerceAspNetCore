@@ -32,9 +32,10 @@ namespace EcommerceAspNet.Infrastructure.Storage
             await container.DeleteIfExistsAsync();
         }
 
-        public async Task<string> GetUrlImage(ProductEntitie product, string fileName)
+        public async Task<string> GetUrlImageProduct(ProductEntitie product, string fileName)
         {
             var container = _blobClient.GetBlobContainerClient(product.ProductIdentifier.ToString());
+
             var exists = await container.ExistsAsync();
 
             if(exists.Value == false || string.IsNullOrEmpty(fileName))
@@ -48,6 +49,35 @@ namespace EcommerceAspNet.Infrastructure.Storage
                 {
                     BlobName = fileName,
                     BlobContainerName = product.ProductIdentifier.ToString(),
+                    ExpiresOn = DateTime.UtcNow.AddMinutes(40),
+                    Resource = "b"
+                };
+
+                sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+                return blob.GenerateSasUri(sasBuilder).ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public async Task<string> GetUrlImageUser(UserEntitie user, string fileName)
+        {
+            var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+
+            var exists = await container.ExistsAsync();
+
+            if (exists.Value == false || string.IsNullOrEmpty(fileName))
+                return string.Empty;
+
+            var blob = container.GetBlobClient(fileName);
+            exists = await blob.ExistsAsync();
+            if (exists.Value)
+            {
+                var sasBuilder = new BlobSasBuilder()
+                {
+                    BlobName = fileName,
+                    BlobContainerName = user.UserIdentifier.ToString(),
                     ExpiresOn = DateTime.UtcNow.AddMinutes(40),
                     Resource = "b"
                 };

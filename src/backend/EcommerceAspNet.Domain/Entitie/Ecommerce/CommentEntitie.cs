@@ -12,6 +12,7 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         public string Text { get; set; } = string.Empty;
         public int Note {  get; set; }
         public long ProductId { get; set; }
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
+        public UserEntitie User { get; set; }
     }
 }

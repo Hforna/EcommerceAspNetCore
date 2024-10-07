@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace EcommerceAspNet.Domain.Repository.Comment
 {
     public interface ICommentReadOnlyRepository
     {
-
+        public Task<IList<CommentEntitie>> CommentByProduct(long? id);
     }
 }

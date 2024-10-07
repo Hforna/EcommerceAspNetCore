@@ -38,9 +38,9 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<Order?> OrderItemList(Order order)
         {
-            var orderUser = _dbContext.Orders.Include(d => d.OrderItems).Where(f => f == order);
+            var orderUser = _dbContext.Orders.Include(d => d.OrderItems).FirstOrDefaultAsync(f => f == order);
 
-            return await orderUser.FirstOrDefaultAsync();
+            return await orderUser;
         }
 
         public void UpdateOrder(Order order)

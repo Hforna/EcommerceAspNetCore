@@ -10,7 +10,7 @@ namespace EcommerceAspNet.Communication.Response.Comment
     {
         public required string Text { get; set; }
         public int Note {  get; set; }
-        public required string Username { get; set; }
+        public string? Username { get; set; } = "Anonymous";
         public string UserImage { get; set; } = string.Empty;
     }
 }

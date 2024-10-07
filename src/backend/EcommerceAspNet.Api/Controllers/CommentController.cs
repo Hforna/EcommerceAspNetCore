@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAspNet.Api.Controllers
 {
-    [AuthenticationUser]
     public class CommentController : BaseController
     {
         [HttpPost]
