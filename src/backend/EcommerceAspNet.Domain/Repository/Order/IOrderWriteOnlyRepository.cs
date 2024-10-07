@@ -13,5 +13,6 @@ namespace EcommerceAspNet.Domain.Repository.Order
         public void UpdateOrder(Entitie.Ecommerce.Order order);
         public void AddOrderItem(OrderItemEntitie orderItem);
         public void UpdateOrderItem(OrderItemEntitie orderItem);
+        public void DeleteOrderItem(OrderItemEntitie orderItem);
     }
 }

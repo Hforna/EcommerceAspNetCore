@@ -19,5 +19,14 @@ namespace EcommerceAspNet.Api.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{Id}")]
+        public async Task<IActionResult> DeleteProduct([FromServices]IDeleteOrderItemUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
+        {
+            await useCase.Execute(Id);
+
+            return NoContent();
+        }
     }
 }

@@ -26,9 +26,21 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.OrderItems.Add(orderItem);
         }
 
+        public void DeleteOrderItem(OrderItemEntitie orderItem)
+        {
+            _dbContext.OrderItems.Remove(orderItem);
+        }
+
         public async Task<Order?> OrderById(long id)
         {
             return await _dbContext.Orders.FirstOrDefaultAsync(d => d.Id == id && d.Active);
+        }
+
+        public async Task<OrderItemEntitie?> OrderItemByIdAndUser(UserEntitie user, long id)
+        {
+            var order = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(d => d.UserId == user.Id);
+
+            return await _dbContext.OrderItems.FirstOrDefaultAsync(d => d.Id == id && d.orderId == order.Id && order.Active);
         }
 
         public async Task<OrderItemEntitie?> OrderItemExists(Order order, long id)

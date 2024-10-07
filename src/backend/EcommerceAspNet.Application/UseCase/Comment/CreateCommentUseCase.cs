@@ -8,6 +8,7 @@ using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Comment;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Exception.Exception;
 using Sqids;
 using System;
@@ -25,14 +26,18 @@ namespace EcommerceAspNet.Application.UseCase.Comment
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICommentWriteOnlyRepository _repositoryWrite;
+        private readonly IAzureStorageService _storageService;
 
-        public CreateCommentUseCase(IGetUserByToken userByToken, SqidsEncoder<long> sqids, IMapper mapper, IUnitOfWork unitOfWork, ICommentWriteOnlyRepository repositoryWrite)
+        public CreateCommentUseCase(IGetUserByToken userByToken, SqidsEncoder<long> sqids, 
+            IMapper mapper, IUnitOfWork unitOfWork, 
+            ICommentWriteOnlyRepository repositoryWrite, IAzureStorageService storageService)
         {
             _userByToken = userByToken;
             _sqids = sqids;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _repositoryWrite = repositoryWrite;
+            _storageService = storageService;
         }
 
         public async Task<ResponseComment> Execute(RequestCreateComment request)
@@ -43,27 +48,27 @@ namespace EcommerceAspNet.Application.UseCase.Comment
 
             var comment = _mapper.Map<CommentEntitie>(request);
 
-            if(user is null)
+            if (user is null)
                 comment.UserId = null;
 
             _repositoryWrite.Add(comment);
             await _unitOfWork.Commit();
 
-            if (user is null)
-                return new ResponseComment()
-                {
-                    Text = request.Text,
-                    Note = request.Note,
-                    Username = "Anonymous"
-                };
-
-            return new ResponseComment()
+            var response = new ResponseComment()
             {
-                Text = request.Text!,
+                Text = request.Text,
                 Note = request.Note,
-                Username = user.Username,
-                UserImage = user.ImageIdentifier,
+                Username = "Anonymous"
             };
+
+            if (user is not null)
+            {
+                response.Username = user.Username;
+                response.UserImage = await _storageService.GetUrlImageUser(user, user.ImageIdentifier!);
+                return response;
+            }
+
+            return response;
         }
 
         public void Validate(RequestCreateComment request)
