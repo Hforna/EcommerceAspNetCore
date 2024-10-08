@@ -9,7 +9,7 @@ namespace EcommerceAspNet.Communication.Response.Product
 {
     public class ResponseProductFull
     {
-        public string Text { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
         public long Stock { get; set; }
