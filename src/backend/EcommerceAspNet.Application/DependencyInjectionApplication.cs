@@ -50,6 +50,8 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IUpdateImageUser, UpdateImageUserUseCase>();
             services.AddScoped<IGetProduct, GetProductUseCase>();
             services.AddScoped<IDeleteOrderItemUseCase, DeleteOrderItemUseCase>();
+            services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
+            services.AddScoped<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

@@ -14,8 +14,6 @@ namespace EcommerceAspNet.Api.Controllers
         {
             var result = await useCase.Execute();
 
-            //Response.Headers.Add("Location", result.Url);
-
             return Ok(new ResponseUrlStripe() { Url = result.Url });
         }
     }

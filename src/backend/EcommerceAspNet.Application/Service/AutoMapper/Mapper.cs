@@ -53,7 +53,8 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
 
             CreateMap<ProductEntitie, ResponseProductFull>();               
 
-            CreateMap<OrderItemEntitie, ResponseOrderItem>();                
+            CreateMap<OrderItemEntitie, ResponseOrderItem>()
+                .ForMember(d => d.Id, f => f.MapFrom(d => _sqids.Encode(d.Id)));                
         }
     }
 }

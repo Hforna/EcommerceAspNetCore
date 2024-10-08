@@ -7,22 +7,39 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAspNet.Api.Controllers
 {
+    [AuthenticationUser]
     public class OrderController : BaseController
     {
         [HttpPost]
         [Route("{Id}")]
-        [AuthenticationUser]
         [ProducesResponseType(typeof(ResponseOrderItem), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddProduct([FromServices] IAddOrderUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))] long Id)
+        public async Task<IActionResult> AddProductToOrder([FromServices] IAddOrderUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))] long Id)
         {
             var result = await useCase.Execute(Id);
 
             return Ok(result);
         }
 
+        [HttpPut]
+        [Route("{Id}/{Quantity}")]
+        public async Task<IActionResult> UpdateQuantity([FromRoute][ModelBinder(typeof(BinderId))]long Id, [FromRoute]int Quantity, [FromServices]IUpdateQuantityUseCase useCase)
+        {
+            await useCase.Execute(Id, Quantity);
+
+            return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOrder([FromServices]IGetOrderUseCase useCase)
+        {
+            var result = await useCase.Execute();
+
+            return Ok(result);
+        }
+
         [HttpDelete]
         [Route("{Id}")]
-        public async Task<IActionResult> DeleteProduct([FromServices]IDeleteOrderItemUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
+        public async Task<IActionResult> DeleteProductFromOrder([FromServices]IDeleteOrderItemUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
         {
             await useCase.Execute(Id);
 

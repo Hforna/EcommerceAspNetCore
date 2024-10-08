@@ -11,5 +11,6 @@ namespace EcommerceAspNet.Communication.Response.Order
         public string Name { get; set; } = string.Empty;
         public float UnitPrice { get; set; }
         public int Quantity { get; set; }
+        public string Id { get; set; }
     }
 }
