@@ -27,6 +27,11 @@ namespace EcommerceAspNet.Application.UseCase.Order
             if (orderItem is null)
                 throw new ProductException("Order item doesn't exists");
 
+            var order = await _orderReadOnlyRepository.UserOrder(user);
+
+            order.TotalPrice -= orderItem.UnitPrice;
+            _orderWriteOnlyRepository.UpdateOrder(order);           
+
             _orderWriteOnlyRepository.DeleteOrderItem(orderItem);
             await _unitOfWork.Commit();
         }
