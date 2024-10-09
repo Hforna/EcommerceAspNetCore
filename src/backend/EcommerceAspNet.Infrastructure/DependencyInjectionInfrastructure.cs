@@ -2,6 +2,7 @@
 using Azure.Storage.Blobs;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Comment;
+using EcommerceAspNet.Domain.Repository.Coupon;
 using EcommerceAspNet.Domain.Repository.Order;
 using EcommerceAspNet.Domain.Repository.Payment;
 using EcommerceAspNet.Domain.Repository.Product;
@@ -74,6 +75,9 @@ namespace EcommerceAspNet.Infrastructure
             //Comment repositories
             services.AddScoped<ICommentWriteOnlyRepository, CommentDbContext>();
             services.AddScoped<ICommentReadOnlyRepository, CommentDbContext>();
+
+            //Coupon repositories
+            services.AddScoped<ICouponReadOnlyRepository, CouponDbContext>();
         }
 
         private static void FluentMsigrator(IServiceCollection services, IConfiguration configuration)

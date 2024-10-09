@@ -24,7 +24,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
             _storageService = storageService;
         }
 
-        public async Task<Session> GoToCheckout(UserEntitie user, Order order)
+        public async Task<Session> GoToCheckout(UserEntitie user, IList<OrderItemEntitie> orderItems)
         {
             var domain = "http://localhost:5008";
 
@@ -37,7 +37,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
                 CustomerEmail = user.Email
             };
 
-            foreach(var item in order.OrderItems)
+            foreach(var item in orderItems)
             {
                 var product = await _repositoryProductRead.ProductById(item!.productId);
                 var imageUrl = await _storageService.GetUrlImageProduct(product!, product!.ImageIdentifier!);
@@ -50,7 +50,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
                     PriceData = new SessionLineItemPriceDataOptions()
                     {
                         Currency = "brl",
-                        UnitAmount = (long)(product.Price * 100),
+                        UnitAmount = (long)(item.UnitPrice / item.Quantity * 100),
                         ProductData = new SessionLineItemPriceDataProductDataOptions()
                         {
                             Name = product.Name,

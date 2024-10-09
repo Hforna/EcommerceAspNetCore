@@ -1,4 +1,6 @@
-﻿using Stripe.Checkout;
+﻿using EcommerceAspNet.Communication.Request.Payment;
+using EcommerceAspNet.Communication.Response.Payment;
+using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace EcommerceAspNet.Application.UseCase.Repository.Payment
 {
     public interface IStripeUseCase
     {
-        public Task<Session> Execute();
+        public Task<ResponseUrlStripe> Execute(RequestDiscountCoupon request);
     }
 }

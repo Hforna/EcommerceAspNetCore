@@ -26,7 +26,7 @@ namespace EcommerceAspNet.Application.Service.Email
         {
             var sender = new MimeMessage();
 
-            sender.From.Add(new MailboxAddress(fromName, fromEmail));
+            sender.From.Add(new MailboxAddress(_name, _email));
 
             sender.Subject = $"Forget your password {toName}? Reset here!";
 
@@ -41,7 +41,7 @@ namespace EcommerceAspNet.Application.Service.Email
             {
                 client.Connect("smtp.gmail.com", 587, true);
 
-                client.Authenticate(fromEmail, );
+                client.Authenticate(_email, _password);
 
                 client.Send(sender);
 

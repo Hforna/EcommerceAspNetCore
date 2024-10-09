@@ -80,7 +80,7 @@ namespace EcommerceAspNet.Application.UseCase.Order
 
             float totalPrice = 0;
 
-            foreach(OrderItemEntitie item in orderList!.OrderItems)
+            foreach(var item in orderList!.OrderItems)
             {
                 totalPrice += item!.UnitPrice;
             }
