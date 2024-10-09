@@ -20,6 +20,7 @@ using EcommerceAspNet.Application.UseCase.Repository.Payment;
 using EcommerceAspNet.Application.UseCase.Payment;
 using EcommerceAspNet.Application.UseCase.Repository.Comment;
 using EcommerceAspNet.Application.UseCase.Comment;
+using EcommerceAspNet.Application.Service.Email;
 
 namespace EcommerceAspNet.Application
 {
@@ -30,6 +31,7 @@ namespace EcommerceAspNet.Application
             AddRepositories(services);
             AddAutoMapper(services);
             AddSqids(services, configuration);
+            AddEmail(services, configuration);
         }
 
         private static void AddRepositories(IServiceCollection services)
@@ -66,6 +68,15 @@ namespace EcommerceAspNet.Application
             });
 
             services.AddSingleton(sqids);
+        }
+
+        private static void AddEmail(IServiceCollection services, IConfiguration configuration)
+        {
+            var email = configuration.GetValue<string>("settings:email:email");
+            var name = configuration.GetValue<string>("settings:email:name");
+            var password = configuration.GetValue<string>("settings:email:password");
+
+            services.AddSingleton(new EmailService(password, email, name));
         }
 
         private static void AddAutoMapper(IServiceCollection services)
