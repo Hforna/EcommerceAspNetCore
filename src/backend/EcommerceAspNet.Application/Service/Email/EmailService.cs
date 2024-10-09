@@ -28,7 +28,7 @@ namespace EcommerceAspNet.Application.Service.Email
 
             sender.From.Add(new MailboxAddress(_name, _email));
 
-            sender.Subject = $"Forget your password {toName}? Reset here!";
+            sender.Subject = "Hello!";
 
             sender.To.Add(new MailboxAddress(toName, toEmail));
 
@@ -39,7 +39,7 @@ namespace EcommerceAspNet.Application.Service.Email
 
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.gmail.com", 587, true);
+                client.Connect("smtp-mail.outlook.com", 465, true);
 
                 client.Authenticate(_email, _password);
 

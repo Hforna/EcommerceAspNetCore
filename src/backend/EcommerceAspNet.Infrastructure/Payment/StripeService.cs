@@ -4,6 +4,7 @@ using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.Payment;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Storage;
+using Stripe;
 using Stripe.Checkout;
 using System;
 using System.Collections.Generic;
@@ -28,13 +29,20 @@ namespace EcommerceAspNet.Infrastructure.Payment
         {
             var domain = "http://localhost:5008";
 
+            var customerService = new CustomerService();
+            var customer = await customerService.CreateAsync(new CustomerCreateOptions()
+            {
+                Email = user.Email,
+                Name = user.Username
+            });
+
             var options = new Stripe.Checkout.SessionCreateOptions
             {
-                SuccessUrl = $"{domain}/swagger.html",
-                CancelUrl = $"{domain}/swagger.html",
+                SuccessUrl = $"https://youtube.com",
+                CancelUrl = $"https://youtube.com",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                CustomerEmail = user.Email
+                Customer = customer.Id
             };
 
             foreach(var item in orderItems)

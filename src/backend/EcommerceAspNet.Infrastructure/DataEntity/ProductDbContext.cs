@@ -22,7 +22,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<ProductEntitie?> GetProductByUid(Guid uid)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid);
+            return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);
         }
 
         public async Task<IList<ProductEntitie>?> GetProducts()
@@ -32,7 +32,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<ProductEntitie?> ProductById(long id)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id && p.Active);
         }
 
         public void Update(ProductEntitie product)

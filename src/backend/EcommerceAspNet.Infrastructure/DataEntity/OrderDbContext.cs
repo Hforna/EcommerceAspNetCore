@@ -38,7 +38,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<OrderItemEntitie?> OrderItemByIdAndUser(UserEntitie user, long id)
         {
-            var order = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(d => d.UserId == user.Id);
+            var order = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(d => d.UserId == user.Id && d.Active);
 
             return await _dbContext.OrderItems.FirstOrDefaultAsync(d => d.Id == id && d.orderId == order.Id && order.Active);
         }
@@ -67,7 +67,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<Order?> UserOrder(UserEntitie user)
         {
-            return await _dbContext.Orders.Include(d => d.OrderItems).FirstOrDefaultAsync(d => d.UserId == user.Id);
+            return await _dbContext.Orders.Include(d => d.OrderItems).FirstOrDefaultAsync(d => d.UserId == user.Id && d.Active);
         }
     }
 }

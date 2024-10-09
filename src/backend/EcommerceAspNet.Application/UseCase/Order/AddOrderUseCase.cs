@@ -70,7 +70,7 @@ namespace EcommerceAspNet.Application.UseCase.Order
             } else
             {
                 orderItem.Quantity += 1;
-                orderItem.UnitPrice *= orderItem.Quantity;
+                orderItem.UnitPrice = product.Price * orderItem.Quantity;
 
                 _repositoryOrderWrite.UpdateOrderItem(orderItem);
             }

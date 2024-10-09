@@ -54,6 +54,12 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IDeleteOrderItemUseCase, DeleteOrderItemUseCase>();
             services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
             services.AddScoped<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
+            services.AddScoped<IStripeWebhookUseCase>(d => {
+
+                var emailService = d.GetRequiredService<EmailService>();
+
+                return new StripeWebhookUseCase("settings:stripe:webhookKey", emailService);
+            });
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)
