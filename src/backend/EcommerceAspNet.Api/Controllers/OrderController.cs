@@ -37,6 +37,14 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("order-history")]
+        public async Task<IActionResult> GetOrderHistory([FromServices]IGetHistoryOrders useCase)
+        {
+            var result = await useCase.Execute();
+
+            return Ok(result);
+        }
+
         [HttpDelete]
         [Route("{Id}")]
         public async Task<IActionResult> DeleteProductFromOrder([FromServices]IDeleteOrderItemUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)

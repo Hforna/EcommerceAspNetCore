@@ -3,6 +3,8 @@ using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Communication.Response.Product;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Storage;
+using EcommerceAspNet.Exception.Exception;
+using Org.BouncyCastle.Security.Certificates;
 using Sqids;
 using System;
 using System.Collections.Generic;
@@ -27,9 +29,12 @@ namespace EcommerceAspNet.Application.UseCase.Product
             _sqids = sqids;
         }
 
-        public async Task<ResponseProductsJson> Execute()
+        public async Task<ResponseProductsJson> Execute(long? id)
         {
-            var products = await _repository.GetProducts();
+            if (id is not null && await _repository.CategoryExists(id) == false)
+                throw new ProductException("This category doesn't exists");
+
+            var products = await _repository.GetProducts(id);
 
             var responses = products!.Select(async product =>
             {
@@ -37,6 +42,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
 
                 response.ImageUrl = await _storageService.GetUrlImageProduct(product, product.ImageIdentifier!);
                 response.Id = _sqids.Encode(product.Id);
+                response.CategoryId = _sqids.Encode(product.CategoryId);
 
                 return response;
             });

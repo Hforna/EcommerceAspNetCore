@@ -9,6 +9,6 @@ namespace EcommerceAspNet.Application.UseCase.Repository.Product
 {
     public interface IGetProducts
     {
-        public Task<ResponseProductsJson> Execute();
+        public Task<ResponseProductsJson> Execute(long? id);
     }
 }

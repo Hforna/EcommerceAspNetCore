@@ -15,6 +15,11 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public ProductDbContext(ProjectDbContext dbContext) => _dbContext = dbContext;
 
+        public async Task<bool> CategoryExists(long? id)
+        {
+            return await _dbContext.Categories.AnyAsync(d => d.Id == id && d.Active);
+        }
+
         public void Delete(ProductEntitie product)
         {            
             _dbContext.Products.Remove(product);
@@ -25,9 +30,12 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);
         }
 
-        public async Task<IList<ProductEntitie>?> GetProducts()
+        public async Task<IList<ProductEntitie>?> GetProducts(long? id = null)
         {
-            return await _dbContext.Products.Where(d => d.Active == true).ToListAsync();
+            if (id is not null)
+                return await _dbContext.Products.Where(d => d.Active && d.CategoryId == id).ToListAsync();
+
+            return await _dbContext.Products.Where(d => d.Active).ToListAsync();
         }
 
         public async Task<ProductEntitie?> ProductById(long id)

@@ -28,13 +28,13 @@ namespace EcommerceAspNet.Application
     {
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         { 
-            AddRepositories(services);
+            AddRepositories(services, configuration);
             AddAutoMapper(services);
             AddSqids(services, configuration);
             AddEmail(services, configuration);
         }
 
-        private static void AddRepositories(IServiceCollection services)
+        private static void AddRepositories(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
@@ -54,12 +54,8 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IDeleteOrderItemUseCase, DeleteOrderItemUseCase>();
             services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
             services.AddScoped<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
-            services.AddScoped<IStripeWebhookUseCase>(d => {
-
-                var emailService = d.GetRequiredService<EmailService>();
-
-                return new StripeWebhookUseCase("settings:stripe:webhookKey", emailService);
-            });
+            services.AddScoped<IStripeWebhookUseCase, StripeWebhookUseCase>();
+            services.AddScoped<IGetHistoryOrders, GetHistoryOrderUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

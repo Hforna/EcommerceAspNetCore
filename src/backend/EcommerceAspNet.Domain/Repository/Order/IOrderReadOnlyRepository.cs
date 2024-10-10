@@ -15,5 +15,6 @@ namespace EcommerceAspNet.Domain.Repository.Order
         public Task<OrderItemEntitie?> OrderItemExists(Entitie.Ecommerce.Order order, long id);
         public Task<OrderItemEntitie?> OrderItemByIdAndUser(UserEntitie user, long id);
         public Task<Entitie.Ecommerce.Order?> OrderItemList(Entitie.Ecommerce.Order order);
+        public Task<IList<EcommerceAspNet.Domain.Entitie.Ecommerce.Order>> OrdersNotActive(UserEntitie user);
     }
 }

@@ -61,6 +61,8 @@ builder.Services.AddInstrastructure(builder.Configuration);
 
 builder.Services.AddScoped<IGetUserLoggedToken, GetUserLoggedToken>();
 
+builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHostedService<DeleteProductService>();

@@ -1,5 +1,9 @@
 ﻿using EcommerceAspNet.Application.Service.Email;
 using EcommerceAspNet.Application.UseCase.Repository.Payment;
+using EcommerceAspNet.Domain.Repository;
+using EcommerceAspNet.Domain.Repository.Order;
+using EcommerceAspNet.Domain.Repository.User;
+using Microsoft.Extensions.Configuration;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -13,11 +17,21 @@ namespace EcommerceAspNet.Application.UseCase.Payment
     {
         private readonly string _secretKey;
         private readonly EmailService _emailService;
+        private readonly IOrderReadOnlyRepository _orderReadOnly;
+        private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+        private readonly IOrderWriteOnlyRepository _orderWriteOnly;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public StripeWebhookUseCase(string secretKey, EmailService emailService)
+        public StripeWebhookUseCase(IConfiguration configuration, EmailService emailService, 
+            IOrderWriteOnlyRepository orderWriteOnly, IUserReadOnlyRepository userReadOnlyRepository, 
+            IOrderReadOnlyRepository orderReadOnlyRepository, IUnitOfWork unitOfWork)
         {
-            _secretKey = secretKey;
+            _secretKey = configuration.GetValue<string>("settings:stripe:webhookKey")!;
             _emailService = emailService;
+            _orderWriteOnly = orderWriteOnly;
+            _userReadOnlyRepository = userReadOnlyRepository;
+            _orderReadOnly = orderReadOnlyRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Execute(string jsonBody, string stripeSignature)
@@ -38,6 +52,14 @@ namespace EcommerceAspNet.Application.UseCase.Payment
                         var customer = await customerService.GetAsync(customerId);
                         var customerEmail = customer.Email;
                         var customerName = customer.Name;
+
+                        var user = await _userReadOnlyRepository.UserByEmail(customerEmail);
+                        var orderUser = await _orderReadOnly.UserOrder(user);
+
+                        orderUser.Active = false;
+
+                        _orderWriteOnly.UpdateOrder(orderUser);
+                        await _unitOfWork.Commit();
 
                         var message = $"Hello {customerName}, your purchase totaled {amountTotal} {typeCoin}";
                         await _emailService.SendEmail(message, customerName, customerEmail);
