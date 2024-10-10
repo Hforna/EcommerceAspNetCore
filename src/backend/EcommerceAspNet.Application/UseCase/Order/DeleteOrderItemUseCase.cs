@@ -18,6 +18,14 @@ namespace EcommerceAspNet.Application.UseCase.Order
         private readonly IUnitOfWork _unitOfWork;
         private readonly IGetUserByToken _userByToken;
 
+        public DeleteOrderItemUseCase(IOrderWriteOnlyRepository orderWriteOnlyRepository, IOrderReadOnlyRepository orderReadOnlyRepository, IUnitOfWork unitOfWork, IGetUserByToken userByToken)
+        {
+            _orderWriteOnlyRepository = orderWriteOnlyRepository;
+            _orderReadOnlyRepository = orderReadOnlyRepository;
+            _unitOfWork = unitOfWork;
+            _userByToken = userByToken;
+        }
+
         public async Task Execute(long id)
         {
             var user = await _userByToken.GetUser();
