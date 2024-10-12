@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Communication.Response.Product;
+using EcommerceAspNet.Domain.Enum;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Storage;
 using EcommerceAspNet.Exception.Exception;
@@ -29,12 +30,15 @@ namespace EcommerceAspNet.Application.UseCase.Product
             _sqids = sqids;
         }
 
-        public async Task<ResponseProductsJson> Execute(long? id)
+        public async Task<ResponseProductsJson> Execute(long? id, int? price)
         {
             if (id is not null && await _repository.CategoryExists(id) == false)
                 throw new ProductException("This category doesn't exists");
 
-            var products = await _repository.GetProducts(id);
+            if (price > (int)PriceEnum.greater_1000)
+                throw new ProductException("Group price is out of enum");
+
+            var products = await _repository.GetProducts(id, price);
 
             var responses = products!.Select(async product =>
             {

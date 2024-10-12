@@ -1,4 +1,5 @@
 ﻿using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using EcommerceAspNet.Domain.Enum;
 using EcommerceAspNet.Domain.Repository.Product;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -30,12 +31,18 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);
         }
 
-        public async Task<IList<ProductEntitie>?> GetProducts(long? id = null)
+        public async Task<IList<ProductEntitie>?> GetProducts(long? id = null, int? price = null)
         {
-            if (id is not null)
-                return await _dbContext.Products.Where(d => d.Active && d.CategoryId == id).ToListAsync();
+            if (id is null && price is null)
+                return await _dbContext.Products.Where(d => d.Active).ToListAsync();
 
-            return await _dbContext.Products.Where(d => d.Active).ToListAsync();
+            if(id is not null && price is null)
+                return await _dbContext.Products.Where(d => d.Active && d.Id == id).ToListAsync();
+
+            if(price is not null && id is null)
+                return await _dbContext.Products.Where(d => d.Active && d.groupPrice == (PriceEnum)price!).ToListAsync();
+
+            return await _dbContext.Products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).ToListAsync();
         }
 
         public async Task<ProductEntitie?> ProductById(long id)

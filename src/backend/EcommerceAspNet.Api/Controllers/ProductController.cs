@@ -29,10 +29,10 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpGet]
-        [Route("products/{CategoryId?}")]
-        public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase, [FromRoute][ModelBinder(typeof(BinderId))]long? CategoryId)
+        [Route("products/{CategoryId?}/{price?}")]
+        public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase, [FromRoute][ModelBinder(typeof(BinderId))]long? CategoryId, [FromRoute]int? price)
         {
-            var result = await useCase.Execute(CategoryId);
+            var result = await useCase.Execute(CategoryId, price);
 
             if (result.Products.Any() == false)
                 return NoContent();
