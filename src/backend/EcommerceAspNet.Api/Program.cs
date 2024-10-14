@@ -1,12 +1,15 @@
 using EcommerceAspNet.Api.BackgroundServices;
 using EcommerceAspNet.Api.Filters;
 using EcommerceAspNet.Application;
+using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Filters;
 using EcommerceAspNet.Infrastructure;
+using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Migration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;

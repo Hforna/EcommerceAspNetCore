@@ -31,20 +31,20 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);
         }
 
-        public async Task<IList<ProductEntitie>?> GetProducts(long? id = null, int? price = null, int numberPage = 1)
+        public List<ProductEntitie> GetProducts(long? id, int? price, int numberPage = 1)
         {
-            var products = _dbContext.Products;
+            var products = _dbContext.Set<ProductEntitie>().Skip((numberPage - 1) * 2).Take(1).ToList();
 
-            if (id is null && price is null)
-                return await products.Where(d => d.Active).ToListAsync();
+            if (id == null && price == null)
+                return products.Where(d => d.Active).ToList();
 
             if(id is not null && price is null)
-                return await products.Where(d => d.Active && d.Id == id).ToListAsync();
+                return  products.Where(d => d.Active && d.CategoryId == id).ToList();
 
             if(price is not null && id is null)
-                return await products.Where(d => d.Active && d.groupPrice == (PriceEnum)price!).ToListAsync();
+                return  products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!).ToList();
 
-            return await products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).ToListAsync();
+            return  products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).ToList();
         }
 
         public async Task<ProductEntitie?> ProductById(long id)

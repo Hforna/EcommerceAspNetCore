@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,9 @@ namespace EcommerceAspNet.Domain.Entitie.User
     public class UserEntitie : BaseEntitie
     {
         public string Username { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public string Email { get; set; }
+        public long? roleId { get; set; }
         public string? ImageIdentifier { get; set; }
         public Guid UserIdentifier { get; set; } = Guid.NewGuid();
     }

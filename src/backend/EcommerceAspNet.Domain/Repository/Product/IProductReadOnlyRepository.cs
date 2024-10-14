@@ -11,7 +11,7 @@ namespace EcommerceAspNet.Domain.Repository.Product
     {
         public Task<ProductEntitie?> ProductById(long id);
 
-        public Task<IList<ProductEntitie>?> GetProducts(long? id = null, int? price = null);
+        public List<ProductEntitie> GetProducts(long? id = null, int? price = null, int numberPage = 1);
 
         public Task<bool> CategoryExists(long? id);
 

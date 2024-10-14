@@ -1,6 +1,7 @@
 ﻿using EcommerceAspNet.Api.Attibutes;
 using EcommerceAspNet.Api.Binders;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
+using EcommerceAspNet.Communication.Request.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,14 +29,11 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
-        [Route("products/{CategoryId?}/{price?}")]
-        public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase, [FromRoute][ModelBinder(typeof(BinderId))]long? CategoryId, [FromRoute]int? price)
+        [HttpPost]
+        [Route("{numberPage}")]
+        public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase, [FromBody]RequestProducts request, [FromRoute]int numberPage)
         {
-            var result = await useCase.Execute(CategoryId, price);
-
-            if (result.Products.Any() == false)
-                return NoContent();
+            var result = await useCase.Execute(request, numberPage);
 
             return Ok(result);
         }

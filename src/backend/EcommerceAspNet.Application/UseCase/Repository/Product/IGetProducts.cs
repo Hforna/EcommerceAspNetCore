@@ -1,4 +1,5 @@
-﻿using EcommerceAspNet.Communication.Response.Product;
+﻿using EcommerceAspNet.Communication.Request.Product;
+using EcommerceAspNet.Communication.Response.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace EcommerceAspNet.Application.UseCase.Repository.Product
 {
     public interface IGetProducts
     {
-        public Task<ResponseProductsJson> Execute(long? id, int? price);
+        public Task<ResponseProductsJson> Execute(RequestProducts request, int numberPage);
     }
 }
