@@ -33,18 +33,18 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public List<ProductEntitie> GetProducts(long? id, int? price, int numberPage = 1)
         {
-            var products = _dbContext.Set<ProductEntitie>().Skip((numberPage - 1) * 2).Take(1).ToList();
+            var products = _dbContext.Products;
 
             if (id == null && price == null)
-                return products.Where(d => d.Active).ToList();
+                return products.Where(d => d.Active).Skip((numberPage - 1) * 2).Take(1).ToList();
 
             if(id is not null && price is null)
-                return  products.Where(d => d.Active && d.CategoryId == id).ToList();
+                return  products.Where(d => d.Active && d.CategoryId == id).Skip((numberPage - 1) * 2).Take(2).ToList();
 
             if(price is not null && id is null)
-                return  products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!).ToList();
+                return  products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(2).ToList();
 
-            return  products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).ToList();
+            return  products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(2).ToList();
         }
 
         public async Task<ProductEntitie?> ProductById(long id)
