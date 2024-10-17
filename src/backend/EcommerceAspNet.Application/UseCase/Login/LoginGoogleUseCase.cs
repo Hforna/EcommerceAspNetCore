@@ -35,7 +35,7 @@ namespace EcommerceAspNet.Application.UseCase.Login
                 user = new UserEntitie()
                 {
                     Email = email,
-                    Username = name,
+                    UserName = name,
                     Password = "-"
                 };
 

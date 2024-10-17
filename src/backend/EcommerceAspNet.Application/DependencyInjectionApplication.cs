@@ -21,6 +21,8 @@ using EcommerceAspNet.Application.UseCase.Payment;
 using EcommerceAspNet.Application.UseCase.Repository.Comment;
 using EcommerceAspNet.Application.UseCase.Comment;
 using EcommerceAspNet.Application.Service.Email;
+using EcommerceAspNet.Application.UseCase.Repository.Identity;
+using EcommerceAspNet.Application.UseCase.Identity;
 
 namespace EcommerceAspNet.Application
 {
@@ -56,6 +58,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
             services.AddScoped<IStripeWebhookUseCase, StripeWebhookUseCase>();
             services.AddScoped<IGetHistoryOrders, GetHistoryOrderUseCase>();
+            services.AddScoped<ICreateRoleUseCase, CreateRoleUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

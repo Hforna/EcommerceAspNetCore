@@ -49,7 +49,7 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
                 .ForMember(d => d.TotalPrice, f => f.MapFrom(d => d.TotalPrice));
 
             CreateMap<CommentEntitie, ResponseComment>()
-                .ForMember(d => d.Username, f => f.MapFrom(d => d.User.Username));
+                .ForMember(d => d.Username, f => f.MapFrom(d => d.User.UserName));
 
             CreateMap<ProductEntitie, ResponseProductFull>();               
 

@@ -33,7 +33,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
             var customer = await customerService.CreateAsync(new CustomerCreateOptions()
             {
                 Email = user.Email,
-                Name = user.Username
+                Name = user.UserName
             });
 
             var options = new Stripe.Checkout.SessionCreateOptions

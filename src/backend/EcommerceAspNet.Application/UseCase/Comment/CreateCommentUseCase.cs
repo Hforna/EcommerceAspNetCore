@@ -63,7 +63,7 @@ namespace EcommerceAspNet.Application.UseCase.Comment
 
             if (user is not null)
             {
-                response.Username = user.Username;
+                response.Username = user.UserName;
                 response.UserImage = await _storageService.GetUrlImageUser(user, user.ImageIdentifier!);
                 return response;
             }

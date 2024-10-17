@@ -9,5 +9,6 @@ namespace EcommerceAspNet.Domain.Entitie.Identity
 {
     public class RoleEntitie : IdentityRole<long>
     {
+        public RoleEntitie(string name) => Name = name;
     }
 }
