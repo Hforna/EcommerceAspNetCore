@@ -35,17 +35,10 @@ namespace EcommerceAspNet.Infrastructure
         public static void AddInstrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             AddRepositories(services, configuration);
-            AddSqlServerConnection(services, configuration);
             FluentMsigrator(services, configuration);
             AddServiceBus(services, configuration);
             AddStorageBlob(services, configuration);
             AddPayment(services, configuration);
-        }
-
-        private static void AddSqlServerConnection(IServiceCollection services, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("sqlserverconnection");
-            services.AddDbContext<ProjectDbContext>(d => d.UseSqlServer(connectionString));
         }
 
         private static void AddRepositories(IServiceCollection services, IConfiguration configuration)

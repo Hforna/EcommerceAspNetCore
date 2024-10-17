@@ -1,4 +1,5 @@
 ﻿using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using EcommerceAspNet.Domain.Entitie.Identity;
 using EcommerceAspNet.Domain.Entitie.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.DataEntity
 {
-    public class ProjectDbContext : DbContext
+    public class ProjectDbContext : IdentityDbContext<UserEntitie, RoleEntitie, long>
     {
-        public ProjectDbContext(DbContextOptions options) : base(options) { }
+        public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options) { }
 
-        public DbSet<UserEntitie> Users {  get; set; }
+        public override DbSet<UserEntitie> Users { get; set; }
         public DbSet<ProductEntitie> Products { get; set; }
         public DbSet<CategoryEntitie> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -24,6 +25,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProjectDbContext).Assembly);
         }
     }

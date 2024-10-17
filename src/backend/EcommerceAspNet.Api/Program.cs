@@ -1,6 +1,7 @@
 using EcommerceAspNet.Api.BackgroundServices;
 using EcommerceAspNet.Api.Filters;
 using EcommerceAspNet.Application;
+using EcommerceAspNet.Domain.Entitie.Identity;
 using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Filters;
@@ -10,6 +11,7 @@ using EcommerceAspNet.Infrastructure.Migration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -57,6 +59,15 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+var connectionString = builder.Configuration.GetConnectionString("sqlserverconnection");
+
+builder.Services.AddDbContext<ProjectDbContext>(d => d.UseSqlServer(connectionString));
+
+
+builder.Services.AddIdentity<UserEntitie, RoleEntitie>()
+    .AddEntityFrameworkStores<ProjectDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddApplication(builder.Configuration);
 
