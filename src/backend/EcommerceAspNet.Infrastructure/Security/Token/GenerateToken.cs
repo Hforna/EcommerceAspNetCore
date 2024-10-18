@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.Security.Token
 {
-    public class GenerateToken : JwtTokenSecurityKey ,IGenerateToken
+    public class GenerateToken : JwtTokenSecurityKey, IGenerateToken
     {
         private readonly long _minutesExpire;
         private readonly string _signKey;
@@ -21,9 +21,10 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             _minutesExpire = minutesExpire;
         }
             
-        public string Generate(Guid uid)
+        public string Generate(Guid uid, List<Claim> claims)
         {
-            List<Claim> claims = new List<Claim>() { new Claim(ClaimTypes.Sid, uid.ToString()) };
+            claims.Add(new Claim(ClaimTypes.Sid, uid.ToString()));
+
             var descriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),

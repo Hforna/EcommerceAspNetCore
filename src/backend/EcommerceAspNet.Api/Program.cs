@@ -10,12 +10,16 @@ using EcommerceAspNet.Infrastructure.DataEntity;
 using EcommerceAspNet.Infrastructure.Migration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Stripe;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +86,33 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHostedService<DeleteProductService>();
 
 AddAuthentication();
+
+var tokenValidationParams = new TokenValidationParameters
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("settings:token:signKey"))!),
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    RequireExpirationTime = false,
+    ClockSkew = TimeSpan.Zero
+};
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(jwt => {
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = tokenValidationParams;
+});
+
+builder.Services.AddAuthorization(d =>
+{
+    d.AddPolicy("AdminOnly", p => p.RequireRole("admin"));
+    d.AddPolicy("CustomerOnly", p => p.RequireRole("customer"));
+});
 
 var app = builder.Build();
 

@@ -36,15 +36,15 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             var products = _dbContext.Products;
 
             if (id == null && price == null)
-                return products.Where(d => d.Active).Skip((numberPage - 1) * 2).Take(1).ToList();
+                return products.Where(d => d.Active).Skip((numberPage - 1) * 2).Take(4).ToList();
 
             if(id is not null && price is null)
-                return  products.Where(d => d.Active && d.CategoryId == id).Skip((numberPage - 1) * 2).Take(2).ToList();
+                return  products.Where(d => d.Active && d.CategoryId == id).Skip((numberPage - 1) * 2).Take(4).ToList();
 
             if(price is not null && id is null)
-                return  products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(2).ToList();
+                return  products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(4).ToList();
 
-            return  products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(2).ToList();
+            return  products.Where(d => d.Active && d.CategoryId == id && d.groupPrice == (PriceEnum)price!).Skip((numberPage - 1) * 2).Take(4).ToList();
         }
 
         public async Task<ProductEntitie?> ProductById(long id)

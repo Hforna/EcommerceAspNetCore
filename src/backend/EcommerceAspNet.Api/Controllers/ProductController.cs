@@ -21,6 +21,7 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "CustomerOnly")]
         [Route("{Id}")]
         public async Task<IActionResult> GetProduct([FromRoute][ModelBinder(typeof(BinderId))] long Id, [FromServices] IGetProduct useCase)
         {
@@ -38,9 +39,9 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
-        [AuthenticationUser]
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete]
-        [Route("Id")]
+        [Route("{Id}")]
         public async Task<IActionResult> Delete([FromServices]IRequestDeleteProduct useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)
         {
             await useCase.Execute(Id);

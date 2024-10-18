@@ -1,13 +1,16 @@
 ﻿using EcommerceAspNet.Application.UseCase.Repository.Login;
 using EcommerceAspNet.Communication.Request.User;
 using EcommerceAspNet.Communication.Response.User;
+using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.Security.Cryptography;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Exception.Exception;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,12 +21,14 @@ namespace EcommerceAspNet.Application.UseCase.Login
         private readonly IUserReadOnlyRepository _readRepository;
         private readonly IPasswordCryptography _cryptography;
         private readonly IGenerateToken _generateToken;
+        private readonly UserManager<UserEntitie> _userManager;
 
-        public LoginUseCase(IUserReadOnlyRepository readRepository, IPasswordCryptography cryptography, IGenerateToken generateToken)
+        public LoginUseCase(IUserReadOnlyRepository readRepository, IPasswordCryptography cryptography, IGenerateToken generateToken, UserManager<UserEntitie> userManager)
         {
             _readRepository = readRepository;
             _cryptography = cryptography;
             _generateToken = generateToken;
+            _userManager = userManager;
         }
 
         public async Task<ResponseCreateUser> Execute(RequestLoginUser request)
@@ -33,7 +38,20 @@ namespace EcommerceAspNet.Application.UseCase.Login
             if (user is null || _cryptography.IsValid(request.Password, user.Password) == false)
                 throw new UserException("E-mail or password invalid");
 
-            var token = _generateToken.Generate(user.UserIdentifier);
+
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+            };
+
+            foreach (var role in await _userManager.GetRolesAsync(user))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+
+            var token = _generateToken.Generate(user.UserIdentifier, claims);
 
             return new ResponseCreateUser()
             {

@@ -25,7 +25,6 @@ namespace EcommerceAspNet.Application.UseCase.Identity
                 throw new ResponseErrorJson("Role already exists");
 
             await _roleManager.CreateAsync(new RoleEntitie(name));
-
         }
     }
 }

@@ -8,6 +8,7 @@ using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security.Cryptography;
 using EcommerceAspNet.Domain.Repository.User;
 using EcommerceAspNet.Exception.Exception;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,18 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IUserWriteOnlyRepository _addUser;
         private readonly IMapper _mapper;
         private readonly IPasswordCryptography _cryptography;
+        private readonly UserManager<UserEntitie> _userManager;
 
-        public CreateUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork, IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, IPasswordCryptography passwordCryptography)
+        public CreateUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork, 
+            IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, 
+            IPasswordCryptography passwordCryptography, UserManager<UserEntitie> userManager)
         {
             _readOnly = userReadOnlyRepository;
             _commit = unitOfWork;
             _addUser = userWriteOnlyRepository;
             _mapper = mapper;
             _cryptography = passwordCryptography;
+            _userManager = userManager;
         }
 
         public async Task<ResponseCreateUser> Execute(RequestCreateUser request)
@@ -41,9 +46,13 @@ namespace EcommerceAspNet.Application.UseCase.User
             user.Password = _cryptography.Encrypt(request.Password);
             user.UserIdentifier = Guid.NewGuid();
 
+            user.SecurityStamp = Guid.NewGuid().ToString();
+
             await _addUser.Add(user);
 
             await _commit.Commit();
+
+            await _userManager.AddToRoleAsync(user, "customer");
 
             return new ResponseCreateUser()
             {
@@ -58,7 +67,7 @@ namespace EcommerceAspNet.Application.UseCase.User
 
             if(await _readOnly.EmailExists(request.Email))
             {
-                result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, "E-mail already exists"));
+                throw new UserException("E-mail already exists");
             }
 
             if (await _readOnly.UsernameExists(request.Username!) == true)

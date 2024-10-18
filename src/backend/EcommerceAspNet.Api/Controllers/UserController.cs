@@ -2,6 +2,7 @@
 using EcommerceAspNet.Application.UseCase.Repositorie.User;
 using EcommerceAspNet.Application.UseCase.Repository.User;
 using EcommerceAspNet.Communication.Request.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

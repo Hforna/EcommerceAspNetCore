@@ -25,12 +25,9 @@ namespace EcommerceAspNet.Application.UseCase.User
         {
             var user = await _userByToken.GetUser() ?? throw new UserException("User doesn't exists");
 
-            var generateToken = _generateToken.Generate(user.UserIdentifier);
-
             return new ResponseGetProfile()
             {
                 Email = user.Email,
-                Token = generateToken
             };
         }
     }

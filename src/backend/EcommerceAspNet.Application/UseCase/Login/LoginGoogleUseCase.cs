@@ -6,6 +6,7 @@ using EcommerceAspNet.Domain.Repository.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,8 +43,16 @@ namespace EcommerceAspNet.Application.UseCase.Login
                 await _repositoryWrite.Add(user);
                 await _unitOfWork.Commit();
             }
+  
 
-            return _generateToken.Generate(user.UserIdentifier);
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Name, name),
+              
+            };
+
+            return _generateToken.Generate(user.UserIdentifier, claims);
         }
     }
 }
