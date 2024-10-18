@@ -42,7 +42,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
             if (price > (int)PriceEnum.greater_1000)
                 throw new ProductException("Group price is out of enum");
             
-            var products = _repository.GetProducts(id, price, numberPage);
+            var products = await _repository.GetProducts(id, price, numberPage);
 
             var responses = products!.Select(async product =>
             {

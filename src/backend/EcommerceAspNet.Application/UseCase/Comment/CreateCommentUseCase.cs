@@ -22,18 +22,16 @@ namespace EcommerceAspNet.Application.UseCase.Comment
     public class CreateCommentUseCase : ICreateComment
     {
         private readonly IGetUserByToken _userByToken;
-        private readonly SqidsEncoder<long> _sqids;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICommentWriteOnlyRepository _repositoryWrite;
         private readonly IAzureStorageService _storageService;
 
-        public CreateCommentUseCase(IGetUserByToken userByToken, SqidsEncoder<long> sqids, 
+        public CreateCommentUseCase(IGetUserByToken userByToken, 
             IMapper mapper, IUnitOfWork unitOfWork, 
             ICommentWriteOnlyRepository repositoryWrite, IAzureStorageService storageService)
         {
             _userByToken = userByToken;
-            _sqids = sqids;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _repositoryWrite = repositoryWrite;

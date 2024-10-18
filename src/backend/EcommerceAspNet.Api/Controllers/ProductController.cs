@@ -21,7 +21,6 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "CustomerOnly")]
         [Route("{Id}")]
         public async Task<IActionResult> GetProduct([FromRoute][ModelBinder(typeof(BinderId))] long Id, [FromServices] IGetProduct useCase)
         {
