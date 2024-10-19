@@ -42,7 +42,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
             if (price > (int)PriceEnum.greater_1000)
                 throw new ProductException("Group price is out of enum");
             
-            var products = await _repository.GetProducts(id, price, numberPage);
+            var products = _repository.GetProducts(id, price, numberPage);
 
             var responses = products!.Select(async product =>
             {
@@ -57,10 +57,23 @@ namespace EcommerceAspNet.Application.UseCase.Product
 
             var responseTask = await Task.WhenAll(responses);
 
-            return new ResponseProductsJson()
+            var response = new ResponseProductsJson()
             {
-                Products = responseTask
+                IsFirstPage = products.IsFirstPage,
+                IsLastPage = products.IsLastPage,
+                TotalItemCount = products.TotalItemCount,
+                LastItemOnPage = products.LastItemOnPage,
+                FirstItemOnPage = products.FirstItemOnPage,
+                Count = products.Count,
+                HasNextPage = products.HasNextPage,
+                HasPreviousPage = products.HasPreviousPage,
+                PageCount = products.PageCount,
+                PageNumber = products.PageNumber,
+                PageSize = products.PageSize                
             };
+            response.Products = responseTask;
+
+            return response;
         }
     }
 }

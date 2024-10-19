@@ -7,6 +7,7 @@ using EcommerceAspNet.Communication.Response.Order;
 using EcommerceAspNet.Communication.Response.Product;
 using EcommerceAspNet.Domain.Entitie.Ecommerce;
 using EcommerceAspNet.Domain.Entitie.User;
+using PagedList;
 using Sqids;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
             CreateMap<CommentEntitie, ResponseComment>()
                 .ForMember(d => d.Username, f => f.MapFrom(d => d.User.UserName));
 
-            CreateMap<ProductEntitie, ResponseProductFull>();               
+            CreateMap<ProductEntitie, ResponseProductFull>();
 
             CreateMap<OrderItemEntitie, ResponseOrderItem>()
                 .ForMember(d => d.Id, f => f.MapFrom(d => _sqids.Encode(d.Id)));                

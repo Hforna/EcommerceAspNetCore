@@ -2,11 +2,14 @@
 using EcommerceAspNet.Domain.Enum;
 using EcommerceAspNet.Domain.Repository.Product;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 namespace EcommerceAspNet.Infrastructure.DataEntity
 {
@@ -36,7 +39,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);
         }
 
-        public async Task<List<ProductEntitie>> GetProducts(long? id, int? price, int numberPage = 1)
+        public PagedList.IPagedList<ProductEntitie> GetProducts(long? id, int? price, int numberPage = 1)
         {
             var products = _dbContext.Products.Where(d => d.Active);
 
@@ -46,7 +49,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             if(price is not null && id is null)
                 products = products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!);
 
-            return await products.Skip((numberPage - 1) * 2).Take(4).ToListAsync();
+            return products.ToPagedList(numberPage, 4);
         }
 
         public async Task<ProductEntitie?> ProductById(long id)

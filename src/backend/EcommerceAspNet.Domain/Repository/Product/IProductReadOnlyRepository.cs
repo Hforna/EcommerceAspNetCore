@@ -1,4 +1,5 @@
 ﻿using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace EcommerceAspNet.Domain.Repository.Product
     {
         public Task<ProductEntitie?> ProductById(long id);
 
-        public Task<List<ProductEntitie>> GetProducts(long? id = null, int? price = null, int numberPage = 1);
+        public IPagedList<ProductEntitie> GetProducts(long? id = null, int? price = null, int numberPage = 1);
 
         public Task<bool> CategoryExists(long? id);
 
