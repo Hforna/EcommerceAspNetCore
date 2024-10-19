@@ -23,6 +23,9 @@ using EcommerceAspNet.Application.UseCase.Comment;
 using EcommerceAspNet.Application.Service.Email;
 using EcommerceAspNet.Application.UseCase.Repository.Identity;
 using EcommerceAspNet.Application.UseCase.Identity;
+using Microsoft.AspNetCore.Identity;
+using EcommerceAspNet.Domain.Entitie.User;
+using EcommerceAspNet.Application.Validator;
 
 namespace EcommerceAspNet.Application
 {
@@ -59,6 +62,10 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IStripeWebhookUseCase, StripeWebhookUseCase>();
             services.AddScoped<IGetHistoryOrders, GetHistoryOrderUseCase>();
             services.AddScoped<ICreateRoleUseCase, CreateRoleUseCase>();
+            services.AddScoped<IForgotPasswordUseCase, ForgotPasswordUseCase>();
+            services.AddScoped<IVerifyCodePassword, VerifyCodePasswordUseCase>();
+            services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
+            services.AddSingleton(new PasswordValidator<UserEntitie>());
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

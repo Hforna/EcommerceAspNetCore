@@ -22,7 +22,7 @@ namespace EcommerceAspNet.Application.Service.Email
             _name = name;
         }
 
-        public async Task SendEmail(string message, string toName, string toEmail)
+        public async Task SendEmail(string message, string toEmail, string toName = " ")
         {
             var sender = new MimeMessage();
 
@@ -43,7 +43,7 @@ namespace EcommerceAspNet.Application.Service.Email
 
                 client.Authenticate(_email, _password);
 
-                client.Send(sender);
+                await client.SendAsync(sender);
 
                 client.Disconnect(true);
             }

@@ -45,6 +45,34 @@ namespace EcommerceAspNet.Api.Controllers
             return NoContent();
         }
 
+        [HttpPost("verify-code-password")]
+        public async Task<IActionResult> VerifyCode([FromBody]RequestVerifyCodePassword request, [FromServices] IVerifyCodePassword useCase)
+        {
+            var result = await useCase.Execute(request);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromQuery]string email, [FromQuery]string token, 
+            [FromBody]RequestResetPassword request, [FromServices]IResetPasswordUseCase useCase)
+        {
+            var result = await useCase.Execute(request, email, token);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{user_email}")]
+        public async Task<IActionResult> ForgotPassowrd([FromRoute]string user_email, [FromServices]IForgotPasswordUseCase useCase)
+        {
+            await useCase.Execute(user_email);
+
+            return NoContent();
+        }
+
+
         [HttpDelete]
         [AuthenticationUser]
         public async Task<IActionResult> Delete([FromServices] IRequestDeleteAccount useCase)

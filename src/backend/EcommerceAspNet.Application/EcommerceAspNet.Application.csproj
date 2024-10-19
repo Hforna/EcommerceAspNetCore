@@ -27,4 +27,8 @@
     <ProjectReference Include="..\EcommerceAspNet.Domain\EcommerceAspNet.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SharedValidators\" />
+  </ItemGroup>
+
 </Project>
