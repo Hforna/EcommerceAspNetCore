@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EcommerceAspNet.Communication.Request.Comment;
+using EcommerceAspNet.Communication.Request.Product;
 using EcommerceAspNet.Communication.Request.User;
 using EcommerceAspNet.Communication.Response.Comment;
 using EcommerceAspNet.Communication.Response.Order;
@@ -34,6 +35,9 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
 
             CreateMap<RequestUpdateUser, UserEntitie>()
                 .ForMember(u => u.Password, (f) => f.Ignore());
+
+            CreateMap<RequestCreateProduct, ProductEntitie>()
+                .ForMember(d => d.ImageIdentifier, (f) => f.Ignore());
 
             CreateMap<RequestCreateComment, CommentEntitie>()
                 .ForMember(d => d.ProductId, (f) => f.MapFrom(d => _sqids.Decode(d.ProductId).Single()));

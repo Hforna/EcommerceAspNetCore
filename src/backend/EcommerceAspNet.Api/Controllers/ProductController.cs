@@ -10,6 +10,15 @@ namespace EcommerceAspNet.Api.Controllers
 {
     public class ProductController : BaseController
     {
+        [HttpPost("create-product")]
+        [Authorize(Policy = "AdminOnly")]
+        public async Task<IActionResult> CreateProduct([FromForm] RequestCreateProduct request, [FromServices] ICreateProductUseCase useCase)
+        {
+            var result = await useCase.Execute(request);
+
+            return Created(string.Empty, result);
+        }
+
         [AuthenticationUser]
         [HttpPut]
         [Route("{Id}")]

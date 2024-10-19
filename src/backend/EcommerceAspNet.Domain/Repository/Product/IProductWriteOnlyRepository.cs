@@ -12,5 +12,6 @@ namespace EcommerceAspNet.Domain.Repository.Product
         public void Update(ProductEntitie product);
 
         public void Delete(ProductEntitie product);
+        public void Add(ProductEntitie product);
     }
 }
