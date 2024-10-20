@@ -44,6 +44,9 @@ namespace EcommerceAspNet.Application.UseCase.Order
             if (product is null)
                 throw new ProductException("Product doesn't exists");
 
+            if (product.Stock < 1)
+                throw new ProductException("Product is out of stock");
+
             var user = await _userLogged.GetUser();
             var orderUser = await _repositoryOrderRead.UserOrder(user!);
 

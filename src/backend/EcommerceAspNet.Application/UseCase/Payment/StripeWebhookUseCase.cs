@@ -56,6 +56,17 @@ namespace EcommerceAspNet.Application.UseCase.Payment
                         var user = await _userReadOnlyRepository.UserByEmail(customerEmail);
                         var orderUser = await _orderReadOnly.UserOrder(user);
 
+                        var orderItems = await _orderReadOnly.OrderItemsProduct(orderUser);
+
+                        var orderUserList = orderItems.Select(item =>
+                        {
+                            item.Product.Stock -= item.Quantity;
+
+                            return item;
+                        }).ToList();
+
+                        _orderWriteOnly.UpdateOrderItemList(orderUserList);
+
                         orderUser.Active = false;
 
                         _orderWriteOnly.UpdateOrder(orderUser);
