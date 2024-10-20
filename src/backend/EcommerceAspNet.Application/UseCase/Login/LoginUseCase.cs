@@ -45,11 +45,19 @@ namespace EcommerceAspNet.Application.UseCase.Login
                 new Claim(ClaimTypes.Email, user.Email),
             };
 
+            var isAdmin = false;
+
             foreach (var role in await _userManager.GetRolesAsync(user))
             {
+                if(role == "admin")
+                    isAdmin = true;
+
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
+            if (isAdmin == false)
+                if (user.EmailConfirmed == false)
+                    throw new UserException("Please confirm your e-mail for continue");
 
             var token = _generateToken.Generate(user.UserIdentifier, claims);
 

@@ -72,6 +72,14 @@ namespace EcommerceAspNet.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery]string email, [FromQuery]string token, [FromServices]IConfirmEmail useCase)
+        {
+            await useCase.Execute(email, token);
+
+            return NoContent();
+        }
+
 
         [HttpDelete]
         [AuthenticationUser]

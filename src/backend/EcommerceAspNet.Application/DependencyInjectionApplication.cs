@@ -67,6 +67,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
             services.AddSingleton(new PasswordValidator<UserEntitie>());
             services.AddScoped<ICreateProductUseCase, CreateProductUseCase>();
+            services.AddScoped<IConfirmEmail, ConfirmEmailUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

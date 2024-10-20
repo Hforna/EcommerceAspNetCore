@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EcommerceAspNet.Application.Service.Email;
 using EcommerceAspNet.Application.UseCase.Repositorie.User;
 using EcommerceAspNet.Application.Validator;
 using EcommerceAspNet.Communication.Request.User;
@@ -25,10 +26,11 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IMapper _mapper;
         private readonly IPasswordCryptography _cryptography;
         private readonly UserManager<UserEntitie> _userManager;
+        private readonly EmailService _emailService;
 
         public CreateUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork, 
             IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, 
-            IPasswordCryptography passwordCryptography, UserManager<UserEntitie> userManager)
+            IPasswordCryptography passwordCryptography, UserManager<UserEntitie> userManager, EmailService emailService)
         {
             _readOnly = userReadOnlyRepository;
             _commit = unitOfWork;
@@ -36,6 +38,7 @@ namespace EcommerceAspNet.Application.UseCase.User
             _mapper = mapper;
             _cryptography = passwordCryptography;
             _userManager = userManager;
+            _emailService = emailService;
         }
 
         public async Task<ResponseCreateUser> Execute(RequestCreateUser request)
@@ -43,9 +46,8 @@ namespace EcommerceAspNet.Application.UseCase.User
             await Validate(request);
 
             var user = _mapper.Map<UserEntitie>(request);
-            user.Password = _cryptography.Encrypt(request.Password);
-            user.UserIdentifier = Guid.NewGuid();
 
+            user.Password = _cryptography.Encrypt(request.Password);
             user.SecurityStamp = Guid.NewGuid().ToString();
 
             await _addUser.Add(user);
@@ -53,6 +55,12 @@ namespace EcommerceAspNet.Application.UseCase.User
             await _commit.Commit();
 
             await _userManager.AddToRoleAsync(user, "customer");
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            var message = $"Click here for confirm your email: http://localhost:5008/api/user/confirm-email?email={user.Email}&token={token}";
+
+            await _emailService.SendEmail(message, user.Email!, user.UserName!);
 
             return new ResponseCreateUser()
             {
