@@ -51,7 +51,17 @@ namespace EcommerceAspNet.Infrastructure.Payment
                 var imageUrl = await _storageService.GetUrlImageProduct(product!, product!.ImageIdentifier!);
                 var imagesUrl = new List<string>();
 
-                imagesUrl.Add(imageUrl);
+                if(string.IsNullOrEmpty(imageUrl) == false)
+                    imagesUrl.Add(imageUrl);
+
+                var ProductData = new SessionLineItemPriceDataProductDataOptions()
+                {
+                    Name = product.Name,
+                    Description = product.Description,
+                };
+
+                if (imagesUrl.Count > 0)
+                    ProductData.Images = imagesUrl;
 
                 var sessionListItem = new SessionLineItemOptions()
                 {
@@ -59,12 +69,8 @@ namespace EcommerceAspNet.Infrastructure.Payment
                     {
                         Currency = "brl",
                         UnitAmount = (long)(item.UnitPrice / item.Quantity * 100),
-                        ProductData = new SessionLineItemPriceDataProductDataOptions()
-                        {
-                            Name = product.Name,
-                            Description = product.Description,
-                            Images = imagesUrl
-                        }
+                        ProductData = ProductData
+
                     },
                     Quantity = item.Quantity
                 };

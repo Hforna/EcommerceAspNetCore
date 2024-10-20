@@ -54,6 +54,12 @@ namespace EcommerceAspNet.Application.UseCase.Payment
 
                 orderItemList = orderItemList.Select(item =>
                 {
+                    if (item.Product.Stock < 1)
+                        orderItemList.Remove(item);
+
+                    if (item.Quantity > 100 && item.Quantity >= item.Product.Stock * 20 / 100)
+                        item.UnitPrice -= (item.UnitPrice / 100 * 15);
+
                     item.UnitPrice -= (item.UnitPrice / 100 * valueDiscount);
 
                     return item;
