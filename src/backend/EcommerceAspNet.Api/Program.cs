@@ -84,6 +84,7 @@ builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHostedService<DeleteProductService>();
+builder.Services.AddHostedService<AbandonedCartService>();
 
 AddAuthentication();
 

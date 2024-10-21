@@ -80,9 +80,14 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.OrderItems.UpdateRange(orderItemList);
         }
 
-        public async Task<IList<OrderItemEntitie>> OrderItemsProduct(Order order)
+        public async Task<List<OrderItemEntitie>> OrderItemsProduct(Order order)
         {
             return await _dbContext.OrderItems.Include(d => d.Product).Where(d => d.orderId == order.Id).ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllOrders()
+        {
+            return await _dbContext.Orders.Where(d => d.Active && d.CreatedOn.AddDays(7) == DateTime.UtcNow).ToListAsync();
         }
     }
 }

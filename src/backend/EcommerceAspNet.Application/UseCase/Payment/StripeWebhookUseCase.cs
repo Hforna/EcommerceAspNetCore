@@ -73,7 +73,7 @@ namespace EcommerceAspNet.Application.UseCase.Payment
                         await _unitOfWork.Commit();
 
                         var message = $"Hello {customerName}, your purchase totaled {amountTotal} {typeCoin}";
-                        await _emailService.SendEmail(message, customerName, customerEmail);
+                        await _emailService.SendEmail(message, customerEmail, customerName);
                         break;
 
                     default:
