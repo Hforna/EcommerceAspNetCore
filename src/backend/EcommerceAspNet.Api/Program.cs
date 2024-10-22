@@ -82,6 +82,14 @@ builder.Services.AddScoped<IGetUserLoggedToken, GetUserLoggedToken>();
 
 builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("https://myxml.in").WithMethods("GET", "POST").AllowCredentials().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddHttpContextAccessor();
 
 var cancellationToken = new CancellationTokenSource();
@@ -131,6 +139,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 StripeConfiguration.ApiKey = builder.Configuration.GetValue<string>("settings:stripe:secretKey");
 

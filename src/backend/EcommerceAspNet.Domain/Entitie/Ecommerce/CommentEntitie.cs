@@ -10,7 +10,7 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
     public class CommentEntitie : BaseEntitie
     {
         public string Text { get; set; } = string.Empty;
-        public int Note {  get; set; }
+        public Int16 Note {  get; set; }
         public long ProductId { get; set; }
         public long? UserId { get; set; }
         public UserEntitie User { get; set; }

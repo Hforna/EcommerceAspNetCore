@@ -18,9 +18,6 @@ namespace EcommerceAspNet.Infrastructure.Migrations.Migrates
                 .WithColumn("Note").AsInt16().Nullable()
                 .WithColumn("ProductId").AsInt64().ForeignKey("FK_PRODUCT_COMMENTS", "products", "Id").OnDelete(System.Data.Rule.Cascade)
                 .WithColumn("UserId").AsInt64().ForeignKey("FK_USER_COMMENTS", "AspNetUsers", "Id").OnDelete(System.Data.Rule.Cascade);
-
-
-
         }
     }
 }

@@ -3,6 +3,7 @@ using EcommerceAspNet.Api.Binders;
 using EcommerceAspNet.Application.UseCase.Repository.Product;
 using EcommerceAspNet.Communication.Request.Product;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace EcommerceAspNet.Api.Controllers
 {
     public class ProductController : BaseController
     {
+        [DisableCors]
         [HttpPost("create-product")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> CreateProduct([FromForm] RequestCreateProduct request, [FromServices] ICreateProductUseCase useCase)
