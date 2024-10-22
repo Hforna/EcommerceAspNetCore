@@ -87,7 +87,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
 
         public async Task<List<Order>> GetAllOrders()
         {
-            return await _dbContext.Orders.Where(d => d.Active && d.CreatedOn.AddDays(7) == DateTime.UtcNow).ToListAsync();
+            return await _dbContext.Orders.Where(d => d.Active && d.CreatedOn.AddDays(7) >= DateTime.UtcNow).ToListAsync();
         }
     }
 }

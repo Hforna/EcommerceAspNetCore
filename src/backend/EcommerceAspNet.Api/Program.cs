@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Stripe;
 using System.Text;
+using System.Threading;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,7 +84,12 @@ builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
 
+var cancellationToken = new CancellationTokenSource();
+
 builder.Services.AddHostedService<DeleteProductService>();
+
+builder.Services.AddSingleton(cancellationToken);
+
 builder.Services.AddHostedService<AbandonedCartService>();
 
 AddAuthentication();
