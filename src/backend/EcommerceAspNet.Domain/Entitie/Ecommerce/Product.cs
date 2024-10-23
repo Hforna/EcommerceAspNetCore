@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Entitie.Ecommerce
 {
-    public class ProductEntitie : BaseEntitie
+    public class Product : BaseEntitie
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
@@ -16,6 +16,7 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         public string? ImageIdentifier { get; set; }
         public long CategoryId { get; set; }
         public PriceEnum? groupPrice { get; set; } = 0;
+        public IList<CommentEntitie?> Comments { get; set; }
         public Guid ProductIdentifier { get; set; } = Guid.NewGuid();
     }
 }

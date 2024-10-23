@@ -88,7 +88,22 @@ namespace EcommerceAspNet.Application.UseCase.Order
                 totalPrice += item!.UnitPrice;
             }
 
+            var sumOfPerfectNum = 0;
+
+            int totalPriceInt = (int)totalPrice;
+
+            for (int i = 1; i < totalPriceInt; i++)
+            {
+                if (totalPriceInt % i == 0)
+                    sumOfPerfectNum += i;
+            }
+
             orderList.TotalPrice = totalPrice;
+
+            if (sumOfPerfectNum == totalPriceInt)
+            {
+                orderList.TotalPrice += totalPrice  * 0.05f;
+            }
 
             _repositoryOrderWrite.UpdateOrder(orderList);
             await _unitOfWork.Commit();

@@ -43,7 +43,7 @@ namespace EcommerceAspNet.Application.UseCase.Product
             if (isImage == false)
                 throw new ProductException("File must be a image");
 
-            var product = _mapper.Map<ProductEntitie>(request);
+            var product = _mapper.Map<Domain.Entitie.Ecommerce.Product>(request);
 
             product.ImageIdentifier = $"{Guid.NewGuid()}{imageType}";
 

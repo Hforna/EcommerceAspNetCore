@@ -16,7 +16,7 @@ namespace EcommerceAspNet.Infrastructure.ServiceBus
 
         public SendProductUser(ServiceBusSender serviceBusSender) => _serviceBusSender = serviceBusSender;
 
-        public async Task SendMessage(ProductEntitie product)
+        public async Task SendMessage(Product product)
         {
             await _serviceBusSender.SendMessageAsync(new ServiceBusMessage(product.ProductIdentifier.ToString()));
         }

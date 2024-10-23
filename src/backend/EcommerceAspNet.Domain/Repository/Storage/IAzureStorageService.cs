@@ -10,13 +10,13 @@ namespace EcommerceAspNet.Domain.Repository.Storage
 {
     public interface IAzureStorageService
     {
-        public Task Upload(ProductEntitie product, Stream file, string fileName);
+        public Task Upload(Entitie.Ecommerce.Product product, Stream file, string fileName);
 
         public Task UploadUser(UserEntitie user, Stream file, string fileName);
 
-        public Task DeleteContainer(ProductEntitie product);
+        public Task DeleteContainer(Entitie.Ecommerce.Product product);
 
-        public Task<string> GetUrlImageProduct(ProductEntitie product, string fileName);
+        public Task<string> GetUrlImageProduct(Entitie.Ecommerce.Product product, string fileName);
 
         public Task<string> GetUrlImageUser(UserEntitie user, string fileName);
     }

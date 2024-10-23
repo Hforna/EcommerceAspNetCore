@@ -9,9 +9,9 @@ namespace EcommerceAspNet.Domain.Repository.Product
 {
     public interface IProductWriteOnlyRepository
     {
-        public void Update(ProductEntitie product);
+        public void Update(Entitie.Ecommerce.Product product);
 
-        public void Delete(ProductEntitie product);
-        public void Add(ProductEntitie product);
+        public void Delete(Entitie.Ecommerce.Product product);
+        public void Add(Entitie.Ecommerce.Product product);
     }
 }

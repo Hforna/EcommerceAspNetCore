@@ -17,7 +17,7 @@ namespace EcommerceAspNet.Infrastructure.Storage
 
         public AzureStorageService(BlobServiceClient blobClient) => _blobClient = blobClient;
 
-        public async Task Upload(ProductEntitie product, Stream file, string fileName)
+        public async Task Upload(Product product, Stream file, string fileName)
         {
             var container = _blobClient.GetBlobContainerClient(product.ProductIdentifier.ToString());
             await container.CreateIfNotExistsAsync();
@@ -26,13 +26,13 @@ namespace EcommerceAspNet.Infrastructure.Storage
             blob.Upload(file, overwrite: true);
         }
 
-        public async Task DeleteContainer(ProductEntitie product)
+        public async Task DeleteContainer(Product product)
         {
             var container = _blobClient.GetBlobContainerClient(product.ProductIdentifier.ToString());
             await container.DeleteIfExistsAsync();
         }
 
-        public async Task<string> GetUrlImageProduct(ProductEntitie product, string fileName)
+        public async Task<string> GetUrlImageProduct(Product product, string fileName)
         {
             var container = _blobClient.GetBlobContainerClient(product.ProductIdentifier.ToString());
 

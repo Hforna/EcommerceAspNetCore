@@ -10,13 +10,13 @@ namespace EcommerceAspNet.Domain.Repository.Product
 {
     public interface IProductReadOnlyRepository
     {
-        public Task<ProductEntitie?> ProductById(long id);
+        public Task<Entitie.Ecommerce.Product?> ProductById(long id);
 
-        public IPagedList<ProductEntitie> GetProducts(long? id = null, int? price = null, int numberPage = 1);
+        public IPagedList<Entitie.Ecommerce.Product> GetProducts(long? id = null, int? price = null, int numberPage = 1);
 
         public Task<bool> CategoryExists(long? id);
 
-        public Task<ProductEntitie?> GetProductByUid(Guid uid);
-        public Dictionary<ProductEntitie, int> GetBestProducts(int days);
+        public Task<Entitie.Ecommerce.Product?> GetProductByUid(Guid uid);
+        public Dictionary<Entitie.Ecommerce.Product, int> GetBestProducts(int days);
     }
 }

@@ -34,10 +34,9 @@ namespace EcommerceAspNet.Application.UseCase.Product
         public async Task<ResponseProductFull> Execute(long id)
         {
             var product = await _repositoryProductRead.ProductById(id);
-            var comments = await _repositoryCommentRead.CommentByProduct(product.Id);
 
             var response = _mapper.Map<ResponseProductFull>(product);
-            var commentResponse = comments.Select(async comment =>
+            var commentResponse = product.Comments.Select(async comment =>
             {
                 var response = _mapper.Map<ResponseComment>(comment);
 

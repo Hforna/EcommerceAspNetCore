@@ -13,6 +13,6 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         public long orderId { get; set; }
         public int Quantity { get; set; }
         public float UnitPrice { get; set; }
-        public ProductEntitie Product { get; set; }
+        public Product Product { get; set; }
     }
 }

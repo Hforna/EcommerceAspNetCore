@@ -15,7 +15,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
     {
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options) { }
 
-        public DbSet<ProductEntitie> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<CategoryEntitie> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItemEntitie> OrderItems { get; set; }

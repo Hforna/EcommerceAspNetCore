@@ -10,6 +10,6 @@ namespace EcommerceAspNet.Domain.Repository.ServiceBus
 {
     public interface ISendDeleteProduct
     {
-        public Task SendMessage(ProductEntitie product);
+        public Task SendMessage(Entitie.Ecommerce.Product product);
     }
 }

@@ -37,7 +37,7 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
             CreateMap<RequestUpdateUser, UserEntitie>()
                 .ForMember(u => u.Password, (f) => f.Ignore());
 
-            CreateMap<RequestCreateProduct, ProductEntitie>()
+            CreateMap<RequestCreateProduct, Product>()
                 .ForMember(d => d.ImageIdentifier, (f) => f.Ignore());
 
             CreateMap<RequestCreateComment, CommentEntitie>()
@@ -46,7 +46,7 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
 
         public void EntitieToResponse()
         {
-            CreateMap<ProductEntitie, ResponseProductShort>()
+            CreateMap<Product, ResponseProductShort>()
                 .ForMember(d => d.ImageUrl, f => f.Ignore())
                 .ForMember(d => d.Id, f => f.Ignore());
 
@@ -56,7 +56,7 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
             CreateMap<CommentEntitie, ResponseComment>()
                 .ForMember(d => d.Username, f => f.MapFrom(d => d.User.UserName));
 
-            CreateMap<ProductEntitie, ResponseProductFull>();
+            CreateMap<Product, ResponseProductFull>();
 
             CreateMap<OrderItemEntitie, ResponseOrderItem>()
                 .ForMember(d => d.Id, f => f.MapFrom(d => _sqids.Encode(d.Id)));                
