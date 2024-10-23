@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,6 +22,7 @@ using Microsoft.OpenApi.Models;
 using Stripe;
 using System.Text;
 using System.Threading;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,6 +92,32 @@ builder.Services.AddCors(opt =>
     });
 });
 
+builder.Services.AddRateLimiter(opt =>
+{
+    opt.AddFixedWindowLimiter("tworequestlimiter", opt =>
+    {
+        opt.PermitLimit = 1;
+        opt.Window = TimeSpan.FromSeconds(5);
+        opt.QueueLimit = 2;
+        opt.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+    });
+    opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
+builder.Services.AddRateLimiter(opt =>
+{
+    opt.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(p => RateLimitPartition.GetFixedWindowLimiter(p.User.Identity.Name ?? p.Request.Headers.Host.ToString(), 
+    fact => new FixedWindowRateLimiterOptions()
+    {
+        AutoReplenishment = true,
+        PermitLimit = 4,
+        Window = TimeSpan.FromSeconds(5),
+        QueueLimit = 2,
+        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+    }));
+    opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
 builder.Services.AddHttpContextAccessor();
 
 var cancellationToken = new CancellationTokenSource();
@@ -147,6 +175,8 @@ StripeConfiguration.ApiKey = builder.Configuration.GetValue<string>("settings:st
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseRateLimiter();
 
 var dd = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
