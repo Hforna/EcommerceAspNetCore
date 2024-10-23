@@ -61,6 +61,7 @@ namespace EcommerceAspNet.Application.UseCase.Payment
                         var orderUserList = orderItems.Select(item =>
                         {
                             item.Product.Stock -= item.Quantity;
+                            item.Active = false;
 
                             return item;
                         }).ToList();

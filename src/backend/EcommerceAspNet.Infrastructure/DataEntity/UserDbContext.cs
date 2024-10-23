@@ -82,5 +82,23 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
         {
             return await _dbContext.Users.AnyAsync(x => x.UserName == username);
         }
+
+        public async Task<List<UserEntitie>> GetAdmins()
+        {
+            var roleName = await _dbContext.Roles.FirstOrDefaultAsync(d => d.Name == "admin");
+            var roles = await _dbContext.UserRoles.Where(d => d.RoleId == roleName.Id).ToListAsync();
+
+            List<UserEntitie> users = new List<UserEntitie>();
+
+            foreach(var role in roles)
+            {
+                var user = await _dbContext.Users.FirstOrDefaultAsync(d => d.Id == role.UserId);
+
+                if(user is not null)
+                    users.Add(user);
+            }
+
+            return users;
+        }
     }
 }

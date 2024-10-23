@@ -94,11 +94,11 @@ builder.Services.AddCors(opt =>
 
 builder.Services.AddRateLimiter(opt =>
 {
-    opt.AddFixedWindowLimiter("tworequestlimiter", opt =>
+    opt.AddFixedWindowLimiter("getallproductslimiter", opt =>
     {
-        opt.PermitLimit = 1;
+        opt.PermitLimit = 3;
         opt.Window = TimeSpan.FromSeconds(5);
-        opt.QueueLimit = 2;
+        opt.QueueLimit = 3;
         opt.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
     });
     opt.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -106,7 +106,8 @@ builder.Services.AddRateLimiter(opt =>
 
 builder.Services.AddRateLimiter(opt =>
 {
-    opt.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(p => RateLimitPartition.GetFixedWindowLimiter(p.User.Identity.Name ?? p.Request.Headers.Host.ToString(), 
+    opt.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(p => RateLimitPartition.GetFixedWindowLimiter(p.User.Identity.Name ?? 
+    p.Request.Headers.Host.ToString(), 
     fact => new FixedWindowRateLimiterOptions()
     {
         AutoReplenishment = true,
@@ -127,6 +128,8 @@ builder.Services.AddHostedService<DeleteProductService>();
 builder.Services.AddSingleton(cancellationToken);
 
 builder.Services.AddHostedService<AbandonedCartService>();
+
+builder.Services.AddHostedService<SendSalesReportService>();
 
 AddAuthentication();
 

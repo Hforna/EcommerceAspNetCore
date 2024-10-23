@@ -34,6 +34,26 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.Products.Remove(product);
         }
 
+        public Dictionary<ProductEntitie, int> GetBestProducts(int days)
+        {
+            var orders = _dbContext.OrderItems.Where(d => d.Active == false && d.CreatedOn.AddDays(7).Day == DateTime.Now.Day);
+
+            var products = new Dictionary<ProductEntitie, int>();
+
+            foreach(var order in orders)
+            {
+                if (products.ContainsKey(order.Product))
+                {
+                    products[order.Product]++;
+                } else
+                {
+                    products[order.Product] = 1;
+                }
+            }
+
+            return (Dictionary<ProductEntitie, int>)products;
+        }
+
         public async Task<ProductEntitie?> GetProductByUid(Guid uid)
         {
             return await _dbContext.Products.FirstOrDefaultAsync(d => d.ProductIdentifier == uid && d.Active);

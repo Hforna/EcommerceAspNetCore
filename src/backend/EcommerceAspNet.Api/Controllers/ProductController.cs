@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace EcommerceAspNet.Api.Controllers
 {
@@ -41,6 +42,7 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("getallproductslimiter")]
         [Route("{numberPage}")]
         public async Task<IActionResult> GetProducts([FromServices] IGetProducts useCase, [FromBody]RequestProducts request, [FromRoute]int numberPage)
         {

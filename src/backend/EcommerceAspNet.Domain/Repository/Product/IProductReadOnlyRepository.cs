@@ -17,5 +17,6 @@ namespace EcommerceAspNet.Domain.Repository.Product
         public Task<bool> CategoryExists(long? id);
 
         public Task<ProductEntitie?> GetProductByUid(Guid uid);
+        public Dictionary<ProductEntitie, int> GetBestProducts(int days);
     }
 }

@@ -10,7 +10,7 @@ namespace EcommerceAspNet.Domain.Repository.User
     public interface IUserReadOnlyRepository
     {
         public Task<bool> EmailExists(string email);
-
+        public Task<List<UserEntitie>> GetAdmins();
         public Task<bool> PasswordEqual(UserEntitie user, string password);
 
         public Task<UserEntitie?> UserByEmail(string email);
