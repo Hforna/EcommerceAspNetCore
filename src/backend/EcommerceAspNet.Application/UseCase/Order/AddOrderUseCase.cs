@@ -53,13 +53,7 @@ namespace EcommerceAspNet.Application.UseCase.Order
             if (orderUser is null)
             {
                 orderUser = new Domain.Entitie.Ecommerce.Order() { UserId = user!.Id };
-                _repositoryOrderWrite.AddOrder(orderUser);
-                await _unitOfWork.Commit();
-            }
 
-            var orderItem = await _repositoryOrderRead.OrderItemExists(orderUser, id);
-            if(orderItem is null)
-            {
                 var orderItems = new OrderItemEntitie()
                 {
                     orderId = orderUser!.Id,
@@ -70,14 +64,10 @@ namespace EcommerceAspNet.Application.UseCase.Order
                 };
 
                 _repositoryOrderWrite.AddOrderItem(orderItems);
-            } else
-            {
-                orderItem.Quantity += 1;
-                orderItem.UnitPrice = product.Price * orderItem.Quantity;
+                _repositoryOrderWrite.AddOrder(orderUser);
 
-                _repositoryOrderWrite.UpdateOrderItem(orderItem);
+                await _unitOfWork.Commit();
             }
-            await _unitOfWork.Commit();
 
             var orderList = await _repositoryOrderRead.OrderItemList(orderUser);
 
