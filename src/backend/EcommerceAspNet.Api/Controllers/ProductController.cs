@@ -60,5 +60,14 @@ namespace EcommerceAspNet.Api.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        [Route("duo-products/{qtyProducts}")]
+        public async Task<IActionResult> GetDuoProducts([FromRoute]int qtyProducts, [FromServices]IProductDuoMostBougth useCase)
+        {
+            var result = await useCase.Execute(qtyProducts);
+
+            return Ok(result);
+        }
     }
 }

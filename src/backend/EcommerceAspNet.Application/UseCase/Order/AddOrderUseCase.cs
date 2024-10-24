@@ -92,7 +92,7 @@ namespace EcommerceAspNet.Application.UseCase.Order
 
             if (sumOfPerfectNum == totalPriceInt)
             {
-                orderList.TotalPrice += totalPrice  * 0.05f;
+                orderList.TotalPrice -= totalPrice  * 0.05f;
             }
 
             _repositoryOrderWrite.UpdateOrder(orderList);

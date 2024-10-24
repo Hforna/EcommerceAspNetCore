@@ -44,6 +44,9 @@ namespace EcommerceAspNet.Application.UseCase.Order
             var unitPriceString = (product.Price * quantity).ToString("F2");
             var unitPrice = float.Parse(unitPriceString);
 
+            if (orderItem.Quantity + quantity > orderItem.Product.Stock)
+                throw new ProductException("Quantity is out of stock");
+
             orderItem.Quantity = quantity;
             orderItem.UnitPrice = unitPrice;
 

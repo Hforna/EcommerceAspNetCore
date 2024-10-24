@@ -31,8 +31,11 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.OrderItems.Remove(orderItem);
         }
 
-        public async Task<IList<Order>> OrdersNotActive(UserEntitie user)
+        public async Task<IList<Order>> OrdersNotActive(UserEntitie? user = null)
         {
+            if(user is null)
+                return await _dbContext.Orders.Include(d => d.OrderItems).AsNoTracking().Where(o => o.Active == false).ToListAsync();
+
             return await _dbContext.Orders.Include(d => d.OrderItems).AsNoTracking().Where(o => o.UserId == user.Id && o.Active == false).ToListAsync();
         }
 

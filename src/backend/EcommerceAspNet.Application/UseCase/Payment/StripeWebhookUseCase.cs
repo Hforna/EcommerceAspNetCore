@@ -40,24 +40,23 @@ namespace EcommerceAspNet.Application.UseCase.Payment
             {
                 var stripeEvent = EventUtility.ConstructEvent(jsonBody, stripeSignature, _secretKey, throwOnApiVersionMismatch: false);
 
+                var checkoutService = stripeEvent.Data.Object as PaymentIntent;
+                var customerId = checkoutService.CustomerId;
+                var typeCoin = checkoutService.Currency;
+                var amountTotal = checkoutService.Amount / 100;
+
+                var customerService = new CustomerService();
+                var customer = await customerService.GetAsync(customerId);
+                var customerEmail = customer.Email;
+                var customerName = customer.Name;
+
+                var user = await _userReadOnlyRepository.UserByEmail(customerEmail);
+                var orderUser = await _orderReadOnly.UserOrder(user);
+                var orderItems = await _orderReadOnly.OrderItemsProduct(orderUser);
+
                 switch (stripeEvent.Type)
                 {
                     case "payment_intent.succeeded":
-                        var checkoutService = stripeEvent.Data.Object as PaymentIntent;
-                        var customerId = checkoutService.CustomerId;
-                        var typeCoin = checkoutService.Currency;
-                        var amountTotal = checkoutService.Amount / 100;
-
-                        var customerService = new CustomerService();
-                        var customer = await customerService.GetAsync(customerId);
-                        var customerEmail = customer.Email;
-                        var customerName = customer.Name;
-
-                        var user = await _userReadOnlyRepository.UserByEmail(customerEmail);
-                        var orderUser = await _orderReadOnly.UserOrder(user);
-
-                        var orderItems = await _orderReadOnly.OrderItemsProduct(orderUser);
-
                         var orderUserList = orderItems.Select(item =>
                         {
                             item.Product.Stock -= item.Quantity;
@@ -77,7 +76,7 @@ namespace EcommerceAspNet.Application.UseCase.Payment
                         await _emailService.SendEmail(message, customerEmail, customerName);
                         break;
 
-                    default:
+                    case "payment_intent.failed":
                         break;
                 }
             }
