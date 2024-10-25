@@ -3,6 +3,7 @@ using EcommerceAspNet.Domain.Entitie.User;
 using EcommerceAspNet.Domain.Repository;
 using EcommerceAspNet.Domain.Repository.Security;
 using EcommerceAspNet.Domain.Repository.User;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,17 @@ namespace EcommerceAspNet.Application.UseCase.Login
         private readonly IUserWriteOnlyRepository _repositoryWrite;
         private readonly IUserReadOnlyRepository _repositoryRead;
         private readonly IGenerateToken _generateToken;
+        private readonly UserManager<UserEntitie> _userManager;
 
-        public LoginGoogleUseCase(IUnitOfWork unitOfWork, IUserWriteOnlyRepository repositoryWrite, IUserReadOnlyRepository repositoryRead, IGenerateToken generateToken)
+        public LoginGoogleUseCase(IUnitOfWork unitOfWork, IUserWriteOnlyRepository repositoryWrite, 
+            IUserReadOnlyRepository repositoryRead, IGenerateToken generateToken,
+            UserManager<UserEntitie> userManager)
         {
             _unitOfWork = unitOfWork;
             _repositoryWrite = repositoryWrite;
             _repositoryRead = repositoryRead;
             _generateToken = generateToken;
+            _userManager = userManager;
         }
 
         public async Task<string> Execute(string name, string email)
@@ -40,6 +45,8 @@ namespace EcommerceAspNet.Application.UseCase.Login
                     Password = "-"
                 };
 
+                await _userManager.AddToRoleAsync(user, "customer");
+
                 await _repositoryWrite.Add(user);
                 await _unitOfWork.Commit();
             }
@@ -49,7 +56,7 @@ namespace EcommerceAspNet.Application.UseCase.Login
             {
                 new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.Name, name),
-              
+                new Claim(ClaimTypes.Role, "customer")              
             };
 
             return _generateToken.Generate(user.UserIdentifier, claims);

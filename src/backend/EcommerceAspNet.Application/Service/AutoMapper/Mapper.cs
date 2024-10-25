@@ -58,6 +58,20 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
 
             CreateMap<Product, ResponseProductFull>();
 
+            CreateMap<Dictionary<(string CategoryName, long CategoryId), IList<EcommerceAspNet.Domain.Entitie.Ecommerce.OrderItemEntitie>>, List<ResponseCategoryProduct>>()
+                .ConvertUsing(d => d.Select(d => new ResponseCategoryProduct()
+                {
+                    CategoryId = _sqids.Encode(d.Key.CategoryId),
+                    CategoryName = d.Key.CategoryName,
+                    Products = d.Value.Select(p => new ResponseOrderItem()
+                    {
+                        Id = _sqids.Encode(p.Id),
+                        Name = p.Name,
+                        Quantity = p.Quantity,
+                        UnitPrice = p.UnitPrice,
+                    }).ToList()
+                }).ToList());
+
             CreateMap<OrderItemEntitie, ResponseOrderItem>()
                 .ForMember(d => d.Id, f => f.MapFrom(d => _sqids.Encode(d.Id)));                
         }

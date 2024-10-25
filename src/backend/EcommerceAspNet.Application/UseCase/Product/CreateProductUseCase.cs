@@ -47,6 +47,15 @@ namespace EcommerceAspNet.Application.UseCase.Product
 
             product.ImageIdentifier = $"{Guid.NewGuid()}{imageType}";
 
+            if (request.Price < 100)
+                product.groupPrice = Domain.Enum.PriceEnum.under_100;
+            else if (request.Price >= 100 && request.Price <= 500)
+                product.groupPrice = Domain.Enum.PriceEnum.between_100_500;
+            else if (request.Price >= 500 && request.Price <= 1000)
+                product.groupPrice = Domain.Enum.PriceEnum.between_500_1000;
+            else if (request.Price > 1000)
+                product.groupPrice = Domain.Enum.PriceEnum.greater_1000;
+
             _repositoryWrite.Add(product);
             await _unitOfWork.Commit();
 

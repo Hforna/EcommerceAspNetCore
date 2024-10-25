@@ -24,6 +24,11 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.Products.Add(product);
         }
 
+        public async Task<CategoryEntitie?> CategoryById(long id)
+        {
+            return await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<bool> CategoryExists(long? id)
         {
             return await _dbContext.Categories.AnyAsync(d => d.Id == id && d.Active);
