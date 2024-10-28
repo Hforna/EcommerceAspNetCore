@@ -56,8 +56,10 @@ namespace EcommerceAspNet.Application.UseCase.Login
             }
 
             if (isAdmin == false)
+            {
                 if (user.EmailConfirmed == false)
                     throw new UserException("Please confirm your e-mail for continue");
+            }
 
             var token = _generateToken.Generate(user.UserIdentifier, claims);
 

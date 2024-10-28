@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Entitie.User
 {
+    [Table("users")]
     public class UserEntitie : IdentityUser<long>
     {
         public bool Active { get; set; } = true;

@@ -23,7 +23,7 @@ namespace EcommerceAspNet.Infrastructure.Storage
             await container.CreateIfNotExistsAsync();
 
             var blob = container.GetBlobClient(fileName);
-            blob.Upload(file, overwrite: true);
+            await blob.UploadAsync(file, overwrite: true);
         }
 
         public async Task DeleteContainer(Product product)

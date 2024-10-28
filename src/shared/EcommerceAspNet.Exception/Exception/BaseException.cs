@@ -9,7 +9,7 @@ namespace EcommerceAspNet.Exception.Exception
 {
     public abstract class BaseException : SystemException
     {
-        public BaseException(string error) : base(error) { }
+        protected BaseException(string error) : base(error) { }
 
         public abstract HttpStatusCode GetStatusCode();       
         public abstract string GetErrorMessage();

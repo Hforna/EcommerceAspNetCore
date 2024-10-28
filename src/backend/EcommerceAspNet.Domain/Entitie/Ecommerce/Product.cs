@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Entitie.Ecommerce
 {
+    [Table("products")]
     public class Product : BaseEntitie
     {
         [StringLength(255, ErrorMessage = "Name length must be less 256")]

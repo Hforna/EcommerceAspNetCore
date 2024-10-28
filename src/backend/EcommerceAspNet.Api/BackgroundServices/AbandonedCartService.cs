@@ -10,17 +10,15 @@ namespace EcommerceAspNet.Api.BackgroundServices
     {
         private readonly EmailService _emailService;
         private readonly IServiceProvider _serviceProvider;
-        private readonly CancellationTokenSource _cancellationTokenSource;
         private Timer _timer;
 
-        public AbandonedCartService(EmailService emailService, IServiceProvider serviceProvider, CancellationTokenSource cancellationTokenSource)
+        public AbandonedCartService(EmailService emailService, IServiceProvider serviceProvider)
         {
             _emailService = emailService;
             _serviceProvider = serviceProvider;
-            _cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken cancellationToken)
         {
             _timer = new Timer(SendMessage, null, TimeSpan.Zero, TimeSpan.FromDays(7));
             return Task.CompletedTask;

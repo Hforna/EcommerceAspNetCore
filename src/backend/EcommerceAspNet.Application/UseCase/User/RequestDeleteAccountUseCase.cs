@@ -17,14 +17,12 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IGetUserByToken _getUser;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserWriteOnlyRepository _writeRepository;
-        private readonly ISendDeleteProduct _send;
 
-        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, IUserWriteOnlyRepository writeRepository, ISendDeleteProduct send)
+        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, IUserWriteOnlyRepository writeRepository)
         {
             _getUser = getUser;
             _unitOfWork = unitOfWork;
             _writeRepository = writeRepository;
-            _send = send;
         }
 
         public async Task Execute()

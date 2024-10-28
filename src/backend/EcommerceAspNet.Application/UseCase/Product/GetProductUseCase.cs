@@ -17,18 +17,14 @@ namespace EcommerceAspNet.Application.UseCase.Product
     public class GetProductUseCase : IGetProduct
     {
         private readonly IProductReadOnlyRepository _repositoryProductRead;
-        private readonly ICommentReadOnlyRepository _repositoryCommentRead;
         private readonly IMapper _mapper;
         private readonly IAzureStorageService _storageService;
-        private readonly IUserReadOnlyRepository _repositoryUserRead;
 
-        public GetProductUseCase(IProductReadOnlyRepository repositoryProductRead, ICommentReadOnlyRepository repositoryCommentRead, IMapper mapper, IAzureStorageService storageService, IUserReadOnlyRepository userReadOnly)
+        public GetProductUseCase(IProductReadOnlyRepository repositoryProductRead, IMapper mapper, IAzureStorageService storageService)
         {
             _repositoryProductRead = repositoryProductRead;
-            _repositoryCommentRead = repositoryCommentRead;
             _mapper = mapper;
             _storageService = storageService;
-            _repositoryUserRead = userReadOnly;
         }
 
         public async Task<ResponseProductFull> Execute(long id)

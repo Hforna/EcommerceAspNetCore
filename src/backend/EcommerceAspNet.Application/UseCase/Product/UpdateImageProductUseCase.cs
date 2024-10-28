@@ -22,15 +22,13 @@ namespace EcommerceAspNet.Application.UseCase.Product
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProductReadOnlyRepository _repositoryRead;
         private readonly IAzureStorageService _storage;
-        private readonly IGetUserByToken _userLogged;
 
-        public UpdateImageProductUseCase(IProductReadOnlyRepository productRead, IUnitOfWork unitOfWork, IProductWriteOnlyRepository writeOnlyRepository, IAzureStorageService storage, IGetUserByToken getUserByToken)
+        public UpdateImageProductUseCase(IProductReadOnlyRepository productRead, IUnitOfWork unitOfWork, IProductWriteOnlyRepository writeOnlyRepository, IAzureStorageService storage)
         {
             _repositoryRead = productRead;
             _unitOfWork = unitOfWork;
             _repositoryWrite = writeOnlyRepository;
             _storage = storage;
-            _userLogged = getUserByToken;
         }
 
         public async Task Execute(IFormFile file, long id)

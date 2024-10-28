@@ -13,12 +13,10 @@ namespace EcommerceAspNet.Application.UseCase.User
     public class GetProfileUseCase : IGetProfileUseCase
     {
         private readonly IGetUserByToken _userByToken;
-        private readonly IGenerateToken _generateToken;
 
-        public GetProfileUseCase(IGetUserByToken userByToken, IGenerateToken generateToken)
+        public GetProfileUseCase(IGetUserByToken userByToken)
         {
             _userByToken = userByToken;
-            _generateToken = generateToken;
         }
 
         public async Task<ResponseGetProfile> Execute()

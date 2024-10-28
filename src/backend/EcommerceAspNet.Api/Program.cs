@@ -201,7 +201,7 @@ void AddAuthentication()
     });
 }
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program
 {

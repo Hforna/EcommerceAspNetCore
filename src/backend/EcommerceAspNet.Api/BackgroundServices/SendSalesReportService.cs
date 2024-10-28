@@ -10,7 +10,7 @@ namespace EcommerceAspNet.Api.BackgroundServices
 {
     public class SendSalesReportService : BackgroundService
     {
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private Timer _timer;
 
         public SendSalesReportService(IServiceProvider serviceProvider)

@@ -33,13 +33,13 @@ namespace EcommerceAspNet.Application
     {
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         { 
-            AddRepositories(services, configuration);
+            AddRepositories(services);
             AddAutoMapper(services);
             AddSqids(services, configuration);
             AddEmail(services, configuration);
         }
 
-        private static void AddRepositories(IServiceCollection services, IConfiguration configuration)
+        private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<ICreateUserUseCase, CreateUserUseCase>();
             services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();

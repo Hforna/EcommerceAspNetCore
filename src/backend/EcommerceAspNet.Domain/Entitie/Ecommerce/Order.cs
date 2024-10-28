@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Domain.Entitie.Ecommerce
 {
+    [Table("orders")]
     public class Order : BaseEntitie
     {
         [ForeignKey("Users")]

@@ -79,7 +79,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
             }
 
             var sessionService = new SessionService();
-            var session = sessionService.Create(options);
+            var session = await sessionService.CreateAsync(options);
 
             return session;
         }

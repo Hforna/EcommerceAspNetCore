@@ -38,7 +38,7 @@ namespace EcommerceAspNet.Infrastructure
             FluentMsigrator(services, configuration);
             AddServiceBus(services, configuration);
             AddStorageBlob(services, configuration);
-            AddPayment(services, configuration);
+            AddPayment(services);
         }
 
         private static void AddRepositories(IServiceCollection services, IConfiguration configuration)
@@ -92,7 +92,7 @@ namespace EcommerceAspNet.Infrastructure
             services.AddScoped<IAzureStorageService>(opt => new AzureStorageService(blobService));
         }
 
-        private static void AddPayment(IServiceCollection services, IConfiguration configuration)
+        private static void AddPayment(IServiceCollection services)
         {
             services.AddScoped<IStripeService, StripeService>();
         }
