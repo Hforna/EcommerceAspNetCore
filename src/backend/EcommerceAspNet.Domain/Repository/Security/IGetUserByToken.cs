@@ -9,6 +9,6 @@ namespace EcommerceAspNet.Domain.Repository.Security
 {
     public interface IGetUserByToken
     {
-        public Task<UserEntitie?> GetUser();
+        public Task<Entitie.User.User?> GetUser();
     }
 }

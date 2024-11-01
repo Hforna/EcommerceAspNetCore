@@ -9,9 +9,9 @@ namespace EcommerceAspNet.Domain.Repository.User
 {
     public interface IUserWriteOnlyRepository
     {
-        public Task Add(UserEntitie user);
+        public Task Add(Entitie.User.User user);
 
-        public void Update(UserEntitie user);
+        public void Update(Entitie.User.User user);
 
         public Task Delete(Guid uid);
     }

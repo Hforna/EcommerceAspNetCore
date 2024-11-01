@@ -11,14 +11,16 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
     [Table("orderItems")]
     public class OrderItemEntitie : BaseEntitie
     {
-        [ForeignKey("products")]
         public long productId { get; set; }
         [StringLength(255, ErrorMessage = "Name length must be less 256")]
         public string Name { get; set; } = string.Empty;
-        [ForeignKey("orders")]
+        [ForeignKey("Order")]
         public long orderId { get; set; }
+        [InverseProperty("OrderItems")]
+        public Order Order { get; set; }
         public int Quantity { get; set; }
         public float UnitPrice { get; set; }
+        [ForeignKey("productId")]
         public Product Product { get; set; }
     }
 }

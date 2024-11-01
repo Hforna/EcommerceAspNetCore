@@ -31,7 +31,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.OrderItems.Remove(orderItem);
         }
 
-        public async Task<IList<Order>> OrdersNotActive(UserEntitie? user = null)
+        public async Task<IList<Order>> OrdersNotActive(User? user = null)
         {
             if(user is null)
                 return await _dbContext.Orders.Include(d => d.OrderItems).AsNoTracking().Where(o => o.Active == false).ToListAsync();
@@ -44,7 +44,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Orders.FirstOrDefaultAsync(d => d.Id == id && d.Active);
         }
 
-        public async Task<OrderItemEntitie?> OrderItemByIdAndUser(UserEntitie user, long id)
+        public async Task<OrderItemEntitie?> OrderItemByIdAndUser(User user, long id)
         {
             var order = await _dbContext.Orders.AsNoTracking().FirstOrDefaultAsync(d => d.UserId == user.Id && d.Active);
 
@@ -73,7 +73,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext.OrderItems.Update(orderItem);
         }
 
-        public async Task<Order?> UserOrder(UserEntitie user)
+        public async Task<Order?> UserOrder(User user)
         {
             return await _dbContext.Orders.Include(d => d.OrderItems).FirstOrDefaultAsync(d => d.UserId == user.Id && d.Active);
         }

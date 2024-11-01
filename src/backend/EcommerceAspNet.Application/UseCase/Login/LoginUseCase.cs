@@ -21,9 +21,9 @@ namespace EcommerceAspNet.Application.UseCase.Login
         private readonly IUserReadOnlyRepository _readRepository;
         private readonly IPasswordCryptography _cryptography;
         private readonly IGenerateToken _generateToken;
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
 
-        public LoginUseCase(IUserReadOnlyRepository readRepository, IPasswordCryptography cryptography, IGenerateToken generateToken, UserManager<UserEntitie> userManager)
+        public LoginUseCase(IUserReadOnlyRepository readRepository, IPasswordCryptography cryptography, IGenerateToken generateToken, UserManager<Domain.Entitie.User.User> userManager)
         {
             _readRepository = readRepository;
             _cryptography = cryptography;

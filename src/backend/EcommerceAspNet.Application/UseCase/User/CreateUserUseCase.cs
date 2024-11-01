@@ -25,12 +25,12 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IUserWriteOnlyRepository _addUser;
         private readonly IMapper _mapper;
         private readonly IPasswordCryptography _cryptography;
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
         private readonly EmailService _emailService;
 
         public CreateUserUseCase(IUserReadOnlyRepository userReadOnlyRepository, IUnitOfWork unitOfWork, 
             IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, 
-            IPasswordCryptography passwordCryptography, UserManager<UserEntitie> userManager, EmailService emailService)
+            IPasswordCryptography passwordCryptography, UserManager<Domain.Entitie.User.User> userManager, EmailService emailService)
         {
             _readOnly = userReadOnlyRepository;
             _commit = unitOfWork;
@@ -45,7 +45,7 @@ namespace EcommerceAspNet.Application.UseCase.User
         {
             await Validate(request);
 
-            var user = _mapper.Map<UserEntitie>(request);
+            var user = _mapper.Map<EcommerceAspNet.Domain.Entitie.User.User>(request);
 
             user.Password = _cryptography.Encrypt(request.Password);
             user.SecurityStamp = Guid.NewGuid().ToString();

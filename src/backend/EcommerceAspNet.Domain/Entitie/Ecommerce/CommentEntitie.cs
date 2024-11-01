@@ -20,6 +20,6 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
         [ForeignKey("Users")]
         public long? UserId { get; set; }
         [NotMapped]
-        public UserEntitie User { get; set; }
+        public User.User User { get; set; }
     }
 }

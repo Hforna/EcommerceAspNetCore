@@ -72,7 +72,7 @@ var connectionString = builder.Configuration.GetConnectionString("sqlserverconne
 builder.Services.AddDbContext<ProjectDbContext>(d => d.UseSqlServer(connectionString));
 
 
-builder.Services.AddIdentity<UserEntitie, RoleEntitie>()
+builder.Services.AddIdentity<User, RoleEntitie>()
     .AddEntityFrameworkStores<ProjectDbContext>()
     .AddDefaultTokenProviders();
 

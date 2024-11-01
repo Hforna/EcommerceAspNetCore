@@ -23,7 +23,7 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             _dbContext = dbContext;
         }
 
-        public async Task<UserEntitie?> GetUser()
+        public async Task<User?> GetUser()
         {
             var token = _userLoggedToken.GetToken();
 
@@ -34,7 +34,7 @@ namespace EcommerceAspNet.Infrastructure.Security.Token
             var readToken = tokenHandler.ReadJwtToken(token);
             var guidToken = Guid.Parse(readToken.Claims.First(d => d.Type == ClaimTypes.Sid).Value);
 
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.UserIdentifier == guidToken && u.Active);
+            return await _dbContext.Users.Include(d => d.UserOrder).FirstOrDefaultAsync(u => u.UserIdentifier == guidToken && u.Active);
         }
     }
 }

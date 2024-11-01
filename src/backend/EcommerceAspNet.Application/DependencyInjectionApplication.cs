@@ -65,7 +65,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<IForgotPasswordUseCase, ForgotPasswordUseCase>();
             services.AddScoped<IVerifyCodePassword, VerifyCodePasswordUseCase>();
             services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
-            services.AddSingleton(new PasswordValidator<UserEntitie>());
+            services.AddSingleton(new PasswordValidator<User>());
             services.AddScoped<ICreateProductUseCase, CreateProductUseCase>();
             services.AddScoped<IConfirmEmail, ConfirmEmailUseCase>();
             services.AddScoped<IProductDuoMostBougth, ProductDuoMostBougthUseCase>();

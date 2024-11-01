@@ -15,10 +15,10 @@ namespace EcommerceAspNet.Application.UseCase.User
     public class ForgotPasswordUseCase : IForgotPasswordUseCase
     {
         private readonly EmailService _emailService;
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
         private readonly IUserReadOnlyRepository _userReadOnly;
 
-        public ForgotPasswordUseCase(EmailService emailService, UserManager<UserEntitie> userManager, IUserReadOnlyRepository userReadOnly)
+        public ForgotPasswordUseCase(EmailService emailService, UserManager<Domain.Entitie.User.User> userManager, IUserReadOnlyRepository userReadOnly)
         {
             _emailService = emailService;
             _userManager = userManager;

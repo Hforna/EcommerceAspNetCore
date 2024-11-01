@@ -25,7 +25,7 @@ namespace EcommerceAspNet.Infrastructure.Payment
             _storageService = storageService;
         }
 
-        public async Task<Session> GoToCheckout(UserEntitie user, IList<OrderItemEntitie> orderItems)
+        public async Task<Session> GoToCheckout(User user, IList<OrderItemEntitie> orderItems)
         {
             var domain = "http://localhost:5008";
 

@@ -31,10 +31,10 @@ namespace EcommerceAspNet.Application.Service.AutoMapper
 
         public void RequestToEntitie()
         {
-            CreateMap<RequestCreateUser, UserEntitie>()
+            CreateMap<RequestCreateUser, User>()
                 .ForMember(u => u.Password, f => f.Ignore());
 
-            CreateMap<RequestUpdateUser, UserEntitie>()
+            CreateMap<RequestUpdateUser, User>()
                 .ForMember(u => u.Password, (f) => f.Ignore());
 
             CreateMap<RequestCreateProduct, Product>()

@@ -14,10 +14,10 @@ namespace EcommerceAspNet.Application.UseCase.User
 {
     public class ConfirmEmailUseCase : IConfirmEmail
     {
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
         private readonly IUserReadOnlyRepository _userReadOnly;
 
-        public ConfirmEmailUseCase(UserManager<UserEntitie> userManager, IUserReadOnlyRepository userReadOnly)
+        public ConfirmEmailUseCase(UserManager<Domain.Entitie.User.User> userManager, IUserReadOnlyRepository userReadOnly)
         {
             _userManager = userManager;
             _userReadOnly = userReadOnly;

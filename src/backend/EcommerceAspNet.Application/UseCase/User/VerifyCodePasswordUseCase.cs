@@ -18,10 +18,10 @@ namespace EcommerceAspNet.Application.UseCase.User
 {
     public class VerifyCodePasswordUseCase : IVerifyCodePassword
     {
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
         private readonly IUserReadOnlyRepository _userReadOnly;
 
-        public VerifyCodePasswordUseCase(UserManager<UserEntitie> userManager, IUserReadOnlyRepository userReadOnly)
+        public VerifyCodePasswordUseCase(UserManager<Domain.Entitie.User.User> userManager, IUserReadOnlyRepository userReadOnly)
         {
             _userManager = userManager;
             _userReadOnly = userReadOnly;

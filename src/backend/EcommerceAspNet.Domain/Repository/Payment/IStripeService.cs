@@ -11,6 +11,6 @@ namespace EcommerceAspNet.Domain.Repository.Payment
 {
     public interface IStripeService
     {
-        public Task<Session> GoToCheckout(UserEntitie user, IList<OrderItemEntitie> orderItems);
+        public Task<Session> GoToCheckout(Entitie.User.User user, IList<OrderItemEntitie> orderItems);
     }
 }

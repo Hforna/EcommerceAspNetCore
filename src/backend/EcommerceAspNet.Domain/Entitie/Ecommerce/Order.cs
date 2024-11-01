@@ -10,9 +10,12 @@ namespace EcommerceAspNet.Domain.Entitie.Ecommerce
     [Table("orders")]
     public class Order : BaseEntitie
     {
-        [ForeignKey("Users")]
+        [ForeignKey("User")]
         public long UserId { get; set; }
         public float TotalPrice { get; set; }
+        [InverseProperty("Order")]
         public IList<OrderItemEntitie?> OrderItems { get; set; }
+        [InverseProperty("UserOrder")]
+        public User.User User { get; set; }
     }
 }

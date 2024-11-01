@@ -45,7 +45,7 @@ namespace EcommerceAspNet.Application.UseCase.User
             if(await _repositoryRead.PasswordEqual(user!, oldPasswordEncrypt) == true)
                 throw new UserException("Password is wrong");
 
-            user = _mapper.Map<UserEntitie>(request);
+            user = _mapper.Map<EcommerceAspNet.Domain.Entitie.User.User>(request);
             user.Password = _cryptography.Encrypt(request.NewPassword!);
 
             _repositoryWrite.Update(user);

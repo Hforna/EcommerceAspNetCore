@@ -18,7 +18,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             _dbContext = dbContext;
         }
 
-        public async Task Add(UserEntitie user)
+        public async Task Add(User user)
         {
             await _dbContext.AddAsync(user);
         }
@@ -45,7 +45,7 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
                 .AnyAsync(x => x.Email == email);
         }
 
-        public async Task<UserEntitie?> LoginByEmail(string email)
+        public async Task<User?> LoginByEmail(string email)
         {
             return await _dbContext
                 .Users
@@ -53,27 +53,27 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
                 .FirstOrDefaultAsync(e => e.Active && e.Email == email);
         }
 
-        public async Task<bool> PasswordEqual(UserEntitie user, string password)
+        public async Task<bool> PasswordEqual(User user, string password)
         {
             return await _dbContext.Users.AnyAsync(x => x.Password == password && user.Id ==  x.Id);
         }
 
-        public void Update(UserEntitie user)
+        public void Update(User user)
         {
             _dbContext.Update(user);
         }
 
-        public async Task<UserEntitie?> UserByEmail(string email)
+        public async Task<User?> UserByEmail(string email)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
         }
 
-        public async Task<UserEntitie?> UserByIdentifier(Guid uid)
+        public async Task<User?> UserByIdentifier(Guid uid)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(d => d.UserIdentifier == uid);
         }
 
-        public async Task<UserEntitie?> UserById(long? id)
+        public async Task<User?> UserById(long? id)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(d => d.Id == id);
         }
@@ -83,12 +83,12 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             return await _dbContext.Users.AnyAsync(x => x.UserName == username);
         }
 
-        public async Task<List<UserEntitie>> GetAdmins()
+        public async Task<List<User>> GetAdmins()
         {
             var roleName = await _dbContext.Roles.FirstOrDefaultAsync(d => d.Name == "admin");
             var roles = await _dbContext.UserRoles.Where(d => d.RoleId == roleName.Id).ToListAsync();
 
-            List<UserEntitie> users = new List<UserEntitie>();
+            List<User> users = new List<User>();
 
             foreach(var role in roles)
             {

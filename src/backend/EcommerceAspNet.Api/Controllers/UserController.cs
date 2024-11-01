@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace EcommerceAspNet.Api.Controllers
 {
-    [EnableRateLimiting("tworequestlimiter")]
     public class UserController : BaseController
     {
         [HttpPost]

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.DataEntity
 {
-    public class ProjectDbContext : IdentityDbContext<UserEntitie, RoleEntitie, long>
+    public class ProjectDbContext : IdentityDbContext<User, RoleEntitie, long>
     {
         public ProjectDbContext(DbContextOptions<ProjectDbContext> options) : base(options) { }
 

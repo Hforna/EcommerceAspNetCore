@@ -19,11 +19,11 @@ namespace EcommerceAspNet.Application.UseCase.Login
         private readonly IUserWriteOnlyRepository _repositoryWrite;
         private readonly IUserReadOnlyRepository _repositoryRead;
         private readonly IGenerateToken _generateToken;
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
 
         public LoginGoogleUseCase(IUnitOfWork unitOfWork, IUserWriteOnlyRepository repositoryWrite, 
             IUserReadOnlyRepository repositoryRead, IGenerateToken generateToken,
-            UserManager<UserEntitie> userManager)
+            UserManager<Domain.Entitie.User.User> userManager)
         {
             _unitOfWork = unitOfWork;
             _repositoryWrite = repositoryWrite;
@@ -38,7 +38,7 @@ namespace EcommerceAspNet.Application.UseCase.Login
             
             if (user is null)
             {
-                user = new UserEntitie()
+                user = new Domain.Entitie.User.User()
                 {
                     Email = email,
                     UserName = name,

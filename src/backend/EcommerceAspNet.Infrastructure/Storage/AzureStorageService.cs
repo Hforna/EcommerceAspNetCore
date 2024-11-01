@@ -61,7 +61,7 @@ namespace EcommerceAspNet.Infrastructure.Storage
             return string.Empty;
         }
 
-        public async Task<string> GetUrlImageUser(UserEntitie user, string fileName)
+        public async Task<string> GetUrlImageUser(User user, string fileName)
         {
             var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
 
@@ -90,7 +90,7 @@ namespace EcommerceAspNet.Infrastructure.Storage
             return string.Empty;
         }
 
-        public async Task UploadUser(UserEntitie user, Stream file, string fileName)
+        public async Task UploadUser(User user, Stream file, string fileName)
         {
             var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
             await container.CreateIfNotExistsAsync();

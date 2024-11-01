@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using EcommerceAspNet.Domain.Entitie.Ecommerce;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace EcommerceAspNet.Domain.Entitie.User
 {
     [Table("users")]
-    public class UserEntitie : IdentityUser<long>
+    public class User : IdentityUser<long>
     {
         public bool Active { get; set; } = true;
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,5 +21,7 @@ namespace EcommerceAspNet.Domain.Entitie.User
         public string? ImageIdentifier { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserIdentifier { get; set; } = Guid.NewGuid();
+        [InverseProperty("User")]
+        public Order? UserOrder { get; set; }
     }
 }

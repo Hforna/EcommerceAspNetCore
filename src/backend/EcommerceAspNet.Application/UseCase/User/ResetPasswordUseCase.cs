@@ -18,13 +18,13 @@ namespace EcommerceAspNet.Application.UseCase.User
 {
     public class ResetPasswordUseCase : IResetPasswordUseCase
     {
-        private readonly UserManager<UserEntitie> _userManager;
+        private readonly UserManager<Domain.Entitie.User.User> _userManager;
         private readonly IUserReadOnlyRepository _userReadOnly;
         private readonly IUserWriteOnlyRepository _userWriteOnly;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordCryptography _passwordCryptography;
 
-        public ResetPasswordUseCase(UserManager<UserEntitie> userManager, IUserReadOnlyRepository userReadOnly, 
+        public ResetPasswordUseCase(UserManager<Domain.Entitie.User.User> userManager, IUserReadOnlyRepository userReadOnly, 
             IUserWriteOnlyRepository userWriteOnly, IUnitOfWork unitOfWork, 
             IPasswordCryptography passwordCryptography)
         {
@@ -57,7 +57,7 @@ namespace EcommerceAspNet.Application.UseCase.User
             return new ResponseResetPassword() { Text = $"Congratulations {user.UserName} you change your password" };
         }
 
-        public async Task Validate(RequestResetPassword request, UserEntitie user)
+        public async Task Validate(RequestResetPassword request, Domain.Entitie.User.User user)
         {
             var validator = new ResetPasswordValidator();
             var result = validator.Validate(request);
