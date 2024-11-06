@@ -17,20 +17,25 @@ namespace EcommerceAspNet.Application.UseCase.User
         private readonly IGetUserByToken _getUser;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserWriteOnlyRepository _writeRepository;
+        private readonly ISendDeleteUser _sendDelete;
 
-        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, IUserWriteOnlyRepository writeRepository)
+        public RequestDeleteAccountUseCase(IGetUserByToken getUser, IUnitOfWork unitOfWork, 
+            IUserWriteOnlyRepository writeRepository, ISendDeleteUser sendDelete)
         {
             _getUser = getUser;
             _unitOfWork = unitOfWork;
             _writeRepository = writeRepository;
+            _sendDelete = sendDelete;
         }
 
         public async Task Execute()
         {
             var user = await _getUser.GetUser() ?? throw new UserException("User doesn't exists");
 
-            await _writeRepository.Delete(user.UserIdentifier);
+            user.Active = false;
             await _unitOfWork.Commit();
+
+            await _sendDelete.SendMessage(user.UserIdentifier);
         }
     }
 }

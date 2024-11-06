@@ -18,7 +18,10 @@ namespace EcommerceAspNet.Infrastructure.ServiceBus
 
         public async Task SendMessage(Product product)
         {
-            await _serviceBusSender.SendMessageAsync(new ServiceBusMessage(product.ProductIdentifier.ToString()));
+            var message = new ServiceBusMessage(product.ProductIdentifier.ToString());
+            message.ApplicationProperties["MessageType"] = "DeleteProduct";
+
+            await _serviceBusSender.SendMessageAsync(message);
         }
     }
 }

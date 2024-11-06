@@ -32,12 +32,24 @@ namespace EcommerceAspNet.Api.BackgroundServices
         {
             var message = args.Message.Body.ToString();
 
+            var messageFrom = args.Message.ApplicationProperties.TryGetValue("MessageType", out var type) ? type.ToString() : null;
             var scope = _serviceProvider.CreateScope();
-            var useCase = scope.ServiceProvider.GetRequiredService<IDeleteProductUseCase>();
 
-            var productIdentifier = Guid.Parse(message);
+            if (messageFrom == "DeleteProduct")
+            {
+                var useCase = scope.ServiceProvider.GetRequiredService<IDeleteProductUseCase>();
 
-            await useCase.Execute(productIdentifier);
+                var productIdentifier = Guid.Parse(message);
+
+                await useCase.Execute(productIdentifier);
+            } else if(messageFrom == "DeleteUser")
+            {
+                var useCase = scope.ServiceProvider.GetRequiredService<IDeleteUserUseCase>();
+
+                var userIdentifier = Guid.Parse(message);
+
+                await useCase.Execute(userIdentifier);
+            }
         }
 
         private async Task ProcessErrorAsync(ProcessErrorEventArgs args) => await Task.CompletedTask;

@@ -69,6 +69,7 @@ namespace EcommerceAspNet.Application
             services.AddScoped<ICreateProductUseCase, CreateProductUseCase>();
             services.AddScoped<IConfirmEmail, ConfirmEmailUseCase>();
             services.AddScoped<IProductDuoMostBougth, ProductDuoMostBougthUseCase>();
+            services.AddScoped<IDeleteUserUseCase, DeleteUserUseCase>();
         }
 
         private static void AddSqids(IServiceCollection services, IConfiguration configuration)

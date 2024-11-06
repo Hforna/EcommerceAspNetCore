@@ -98,5 +98,11 @@ namespace EcommerceAspNet.Infrastructure.Storage
             var client = container.GetBlobClient(fileName);
             await client.UploadAsync(file, overwrite: true);
         }
+
+        public async Task DeleteUserContainer(User user)
+        {
+            var container = _blobClient.GetBlobContainerClient(user.UserIdentifier.ToString());
+            await container.DeleteIfExistsAsync();
+        }
     }
 }

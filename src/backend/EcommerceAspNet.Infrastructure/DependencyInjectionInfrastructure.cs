@@ -108,6 +108,9 @@ namespace EcommerceAspNet.Infrastructure
             var sender = new SendProductUser(client.CreateSender("product"));
             services.AddScoped<ISendDeleteProduct>(opt => sender);
 
+            var userSender = new SendDeleteUser(client.CreateSender("product"));
+            services.AddScoped<ISendDeleteUser>(opt => userSender);
+
             var processor = new DeleteProductProcessor(client.CreateProcessor("product", new ServiceBusProcessorOptions()
             {
                 MaxConcurrentCalls = 1

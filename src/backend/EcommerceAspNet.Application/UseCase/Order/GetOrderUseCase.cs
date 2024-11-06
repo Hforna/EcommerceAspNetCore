@@ -4,6 +4,7 @@ using EcommerceAspNet.Communication.Response.Order;
 using EcommerceAspNet.Domain.Repository.Order;
 using EcommerceAspNet.Domain.Repository.Product;
 using EcommerceAspNet.Domain.Repository.Security;
+using EcommerceAspNet.Exception.Exception;
 using Sqids;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ namespace EcommerceAspNet.Application.UseCase.Order
             var user = await _userByToken.GetUser();
 
             var order = await _orderReadOnly.UserOrder(user);
+
+            if (order is null)
+                throw new OrderException("Order not found");
 
             var orderItems = await _orderReadOnly.OrderItemsProduct(order);
 
