@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EcommerceAspNet.Infrastructure.Security.Token
 {
-    public class ValidateToken : JwtTokenSecurityKey ,IValidateToken
+    public class ValidateToken : JwtTokenSecurityKey, IValidateToken
     {
         private readonly string _signKey;
 

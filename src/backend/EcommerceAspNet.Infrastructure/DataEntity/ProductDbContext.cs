@@ -69,10 +69,10 @@ namespace EcommerceAspNet.Infrastructure.DataEntity
             var products = _dbContext.Products.Include(d => d.Comments).Where(d => d.Active);
 
             if(id is not null && price is null)
-                products = products.Where(d => d.Active && d.CategoryId == id);
+                products = products.Where(d => d.CategoryId == id);
 
             if(price is not null && id is null)
-                products = products.Where(d => d.Active == true && d.groupPrice == (PriceEnum)price!);
+                products = products.Where(d => d.groupPrice == (PriceEnum)price!);
 
             return products.OrderBy(d => d.Comments.Count).ToPagedList(numberPage, 4);
         }
