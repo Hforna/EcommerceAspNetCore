@@ -15,7 +15,8 @@ namespace EcommerceAspNet.Api.Controllers
         [ProducesResponseType(typeof(ResponseOrderItem), StatusCodes.Status200OK)]
         public async Task<IActionResult> AddProductToOrder([FromServices] IAddOrderUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))] long Id)
         {
-            var result = await useCase.Execute(Id);
+            var session = HttpContext.Session;
+            var result = await useCase.Execute(Id, session);
 
             return Ok(result);
         }

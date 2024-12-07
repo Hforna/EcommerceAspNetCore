@@ -160,6 +160,11 @@ builder.Services.AddAuthorization(d =>
     d.AddPolicy("CustomerOnly", p => p.RequireRole("customer"));
 });
 
+builder.Services.AddSession(d => { 
+    d.IdleTimeout = TimeSpan.FromDays(7);
+    d.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -170,6 +175,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseSession();
 
 app.UseCors();
 
@@ -183,7 +190,7 @@ app.UseRateLimiter();
 
 var dd = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
-DatabaseMigration.Migrate(builder.Configuration.GetConnectionString("sqlserverconnection")!, dd.ServiceProvider);
+//DatabaseMigration.Migrate(builder.Configuration.GetConnectionString("sqlserverconnection")!, dd.ServiceProvider);
 
 void AddAuthentication()
 {
