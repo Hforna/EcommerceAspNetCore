@@ -15,24 +15,24 @@ namespace EcommerceAspNet.Infrastructure.Migration
     {
         public static void Migrate(string connectionString, IServiceProvider serviceProvider)
         {
-            EnsureDatabase(connectionString);
+            //EnsureDatabase(connectionString);
             MigrateDatabase(serviceProvider);
         }
 
-        private static void EnsureDatabase(string connectionString)
-        {
-            var connectionBuilder = new SqlConnectionStringBuilder(connectionString);
-            var dbName = connectionBuilder.InitialCatalog;
-            connectionBuilder.Remove(dbName);
-
-            var connectServer = new SqlConnection(connectionBuilder.ConnectionString);
-            var parameters = new DynamicParameters();
-            parameters.Add("name", dbName);
-            var query = connectServer.Query("SELECT * FROM sys.databases where name = @name", parameters);
-
-            if (query is null)
-                connectServer.Execute($"CREATE DATABASE {dbName}");
-        }
+        //private static void EnsureDatabase(string connectionString)
+        //{
+        //    var connectionBuilder = new SqlConnectionStringBuilder(connectionString);
+        //    var dbName = connectionBuilder.InitialCatalog;
+        //    connectionBuilder.Remove(dbName);
+        //
+        //    var connectServer = new SqlConnection(connectionBuilder.ConnectionString);
+        //    var parameters = new DynamicParameters();
+        //    parameters.Add("name", dbName);
+        //    var query = connectServer.Query("SELECT * FROM sys.databases where name = @name", parameters);
+        //
+        //    if (query is null)
+        //        connectServer.Execute($"CREATE DATABASE {dbName}");
+        //}
 
         private static void MigrateDatabase(IServiceProvider serviceProvider)
         {

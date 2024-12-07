@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceAspNet.Api.Controllers
 {
-    [AuthenticationUser]
     public class OrderController : BaseController
     {
         [HttpPost]
@@ -23,6 +22,7 @@ namespace EcommerceAspNet.Api.Controllers
 
         [HttpPut]
         [Route("{Id}/{Quantity}")]
+        [AuthenticationUser]
         public async Task<IActionResult> UpdateQuantity([FromRoute][ModelBinder(typeof(BinderId))]long Id, [FromRoute]int Quantity, [FromServices]IUpdateQuantityUseCase useCase)
         {
             await useCase.Execute(Id, Quantity);
@@ -31,6 +31,7 @@ namespace EcommerceAspNet.Api.Controllers
         }
 
         [HttpGet]
+        [AuthenticationUser]
         public async Task<IActionResult> GetOrder([FromServices]IGetOrderUseCase useCase)
         {
             var result = await useCase.Execute();
@@ -38,6 +39,7 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
+        [AuthenticationUser]
         [HttpGet("order-history")]
         public async Task<IActionResult> GetOrderHistory([FromServices]IGetHistoryOrders useCase)
         {
@@ -46,6 +48,7 @@ namespace EcommerceAspNet.Api.Controllers
             return Ok(result);
         }
 
+        [AuthenticationUser]
         [HttpDelete]
         [Route("{Id}")]
         public async Task<IActionResult> DeleteProductFromOrder([FromServices]IDeleteOrderItemUseCase useCase, [FromRoute][ModelBinder(typeof(BinderId))]long Id)

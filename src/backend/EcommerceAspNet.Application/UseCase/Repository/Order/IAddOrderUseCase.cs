@@ -1,5 +1,6 @@
 ﻿using EcommerceAspNet.Communication.Response.Order;
 using EcommerceAspNet.Communication.Response.Product;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace EcommerceAspNet.Application.UseCase.Repository.Order
 {
     public interface IAddOrderUseCase
     {
-        public Task<ResponseUserOrder> Execute(long id);
+        public Task<ResponseUserOrder> Execute(long id, ISession session);
     }
 }
