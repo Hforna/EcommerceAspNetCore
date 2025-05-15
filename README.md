@@ -45,9 +45,6 @@ This is a generic e-commerce platform built using **ASP.NET Core**, featuring mo
 - **SQIDs**: For obfuscated ID encoding
 - **SendGrid/MailKit**: Email service providers for notifications and alerts
 
-### Frontend (Optional Integration)
-This project is backend-focused. However, it can be seamlessly integrated with any modern frontend framework like **React**, **Angular**, or **Vue.js**.
-
 ---
 
 ## Installation & Setup
@@ -84,17 +81,3 @@ dotnet ef database update
 dotnet build
 dotnet run
 ```
-
----
-
-## API Endpoints
-
-| **Endpoint**              | **Method** | **Description**                      |
-|---------------------------|------------|--------------------------------------|
-| `/api/users/login`        | POST       | Login using Google OAuth             |
-| `/api/products`           | GET/POST   | Fetch or create products             |
-| `/api/products/{id}`      | PUT/DELETE | Update or delete a product           |
-| `/api/orders`             | POST       | Create a new order                   |
-| `/api/alerts`             | GET        | Fetch buy and delete alerts          |
-
----
