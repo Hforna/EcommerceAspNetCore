@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace IntegrationTests
 {
-    public class GetProductTests : IClassFixture<ConfigureApplicationTests>
+    [Collection(nameof(CollectionTest))]
+    public class GetProductTests
     {
         private readonly ConfigureApplicationTests _app;
 
@@ -39,7 +40,6 @@ namespace IntegrationTests
             var sqids = new SqidsEncoder<long>(new SqidsOptions() { Alphabet = "f78D", MinLength = 4 });
             var product = new Product()
             {
-                Id = 18,
                 Active = true,
                 Name = "Iphone 15",
                 Price = 1000,

@@ -14,7 +14,8 @@ using EcommerceAspNet.Communication.Response.Product;
 
 namespace IntegrationTests
 {
-    public class GetProductsTests : IClassFixture<ConfigureApplicationTests>
+    [Collection(nameof(CollectionTest))]
+    public class GetProductsTests
     {
         private readonly ConfigureApplicationTests _app;
 
@@ -24,7 +25,7 @@ namespace IntegrationTests
         public async Task Page_Out_Range_No_Content()
         {
             //Arrange
-            var client = _app.CreateClient();
+            var client = await _app.GenerateClientWithToken();
 
             var products = ProductFaker.GenerateProducts(100);
             await _app.DbContext.Products.AddRangeAsync(products);
@@ -40,7 +41,7 @@ namespace IntegrationTests
         [Fact]
         public async Task Success()
         {
-            var client = _app.CreateClient();
+            var client = await _app.GenerateClientWithToken();
 
             var products = ProductFaker.GenerateProducts(50);
             await _app.DbContext.AddRangeAsync(products);

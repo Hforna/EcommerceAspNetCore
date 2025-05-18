@@ -21,79 +21,110 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Testcontainers.MsSql;
 
 namespace IntegrationTests
 {
-    public class ConfigureApplicationTests : WebApplicationFactory<Program>
+    public class ConfigureApplicationTests : WebApplicationFactory<Program>, IAsyncLifetime
     {
-        public ProjectDbContext DbContext;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly MsSqlContainer _sqlContainer = new MsSqlBuilder()
+            .WithImage("mcr.microsoft.com/mssql/server:2019-latest")
+            .Build();
 
-        public ConfigureApplicationTests()
-        {
-            _serviceProvider = Services;
-            var scope = _serviceProvider.CreateScope();
-            DbContext = scope.ServiceProvider.GetRequiredService<ProjectDbContext>();
-        }
+        public ProjectDbContext DbContext { get; private set; }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(async service =>
+            builder.ConfigureServices(services =>
             {
-                var verifyDbContext = service.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ProjectDbContext>));
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<ProjectDbContext>));
 
-                if (verifyDbContext is not null)
-                    service.Remove(verifyDbContext);
-
-                service.AddDbContext<ProjectDbContext>(d =>
+                if (descriptor != null)
                 {
-                    d.UseInMemoryDatabase("InMemoryDbForTesting");
-                });
+                    services.Remove(descriptor);
+                }
 
-                using var scope = service.BuildServiceProvider().CreateScope();
-                var uof = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                var userWrite = scope.ServiceProvider.GetRequiredService<IUserWriteOnlyRepository>();
-                var crypt = scope.ServiceProvider.GetRequiredService<IPasswordCryptography>();
-                var userS = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-                var roles = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntitie>>();
-                await roles.CreateAsync(new RoleEntitie("admin"));
-                await roles.CreateAsync(new RoleEntitie("customer"));
-                
-                var user = new User()
-                {
-                    Active = true,
-                    Email = "testemail@gmail.com",
-                    Password = crypt.Encrypt("testpassword"),
-                    EmailConfirmed = true,
-                    UserName = "testuser",
-                    UserIdentifier = Guid.NewGuid(),
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString()
-                };
-                await userWrite.Add(user);
-                await uof.Commit();
-
-                await userS.AddToRoleAsync(user, "customer");
-                
+                services.AddDbContext<ProjectDbContext>(options =>
+                    options.UseSqlServer(_sqlContainer.GetConnectionString()));
             });
-            base.ConfigureWebHost(builder);
+        }
+
+        public async Task InitializeAsync()
+        {
+            await _sqlContainer.StartAsync();
+
+            var options = new DbContextOptionsBuilder<ProjectDbContext>()
+                .UseSqlServer(_sqlContainer.GetConnectionString())
+                .Options;
+
+            DbContext = new ProjectDbContext(options);
+
+            await DbContext.Database.MigrateAsync();
+
+            await SeedTestData();
+        }
+
+        private async Task SeedTestData()
+        {
+            using var scope = Services.CreateScope();
+            var scopedServices = scope.ServiceProvider;
+
+            var userManager = scopedServices.GetRequiredService<UserManager<User>>();
+            var roleManager = scopedServices.GetRequiredService<RoleManager<RoleEntitie>>();
+            var crypt = scopedServices.GetRequiredService<IPasswordCryptography>();
+            var uow = scopedServices.GetRequiredService<IUnitOfWork>();
+            var userWrite = scopedServices.GetRequiredService<IUserWriteOnlyRepository>();
+
+            await roleManager.CreateAsync(new RoleEntitie("admin"));
+            await roleManager.CreateAsync(new RoleEntitie("customer"));
+
+            var user = new User
+            {
+                Active = true,
+                Email = "testemail@gmail.com",
+                Password = crypt.Encrypt("testpassword"),
+                EmailConfirmed = true,
+                UserName = "testuser",
+                UserIdentifier = Guid.NewGuid(),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString()
+            };
+
+            await userWrite.Add(user);
+            await uow.Commit();
+            await userManager.AddToRoleAsync(user, "customer");
         }
 
         public async Task<HttpClient> GenerateClientWithToken()
         {
-            var client = this.CreateClient();
+            var client = CreateClient();
 
-            var request = await client.PostAsJsonAsync("api/login", new { email = "testemail@gmail.com", password = "testpassword" });
-
-            var response = await request.Content.ReadAsStringAsync();
-            if(request.IsSuccessStatusCode)
+            var response = await client.PostAsJsonAsync("api/login", new
             {
-                var serializer = JsonSerializer.Deserialize<ResponseCreateUser>(response);
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", serializer.TokenGenerated);
+                email = "testemail@gmail.com",
+                password = "testpassword"
+            });
 
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadFromJsonAsync<ResponseCreateUser>();
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", content.TokenGenerated);
                 return client;
             }
-            throw new UserException(response);
+
+            var error = await response.Content.ReadAsStringAsync();
+            throw new UserException(error);
+        }
+
+        public new async Task DisposeAsync()
+        {
+            if (DbContext != null)
+            {
+                await DbContext.DisposeAsync();
+            }
+            await _sqlContainer.DisposeAsync();
         }
     }
 }

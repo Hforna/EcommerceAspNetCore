@@ -13,10 +13,10 @@ namespace CommonUtilities
         public static Product GenerateProduct()
         {
             return new Faker<Product>()
-                .RuleFor(d => d.Description, f => f.Lorem.Paragraph())
-                .RuleFor(d => d.Name, f => f.Lorem.Sentences())
-                .RuleFor(d => d.Id, 1)
-                .RuleFor(d => d.Stock, 500);
+                .RuleFor(d => d.Description, f => f.Lorem.Sentence(10))
+                .RuleFor(d => d.Name, f => f.Commerce.ProductName())
+                .RuleFor(d => d.Stock, 500)
+                .Ignore(d => d.Id);
         }
 
         public static List<Product> GenerateProducts(int qty)
@@ -25,9 +25,10 @@ namespace CommonUtilities
             for(var i = 1; i <= qty; i++)
             {
                 products.Add(new Faker<Product>()
-                .RuleFor(d => d.Description, f => f.Lorem.Paragraph())
-                .RuleFor(d => d.Name, f => f.Lorem.Sentences())
-                .RuleFor(d => d.Stock, 500));
+                .RuleFor(d => d.Description, f => f.Lorem.Sentence(10))
+                .RuleFor(d => d.Name, f => f.Commerce.ProductName())
+                .RuleFor(d => d.Stock, 500)
+                .Ignore(d => d.Id));
             }
             return products;
         }
