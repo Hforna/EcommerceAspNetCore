@@ -15,11 +15,16 @@ using EcommerceAspNet.Communication.Response.Product;
 namespace IntegrationTests
 {
     [Collection(nameof(CollectionTest))]
-    public class GetProductsTests
+    public class GetProductsTests : IAsyncDisposable
     {
         private readonly ConfigureApplicationTests _app;
 
         public GetProductsTests(ConfigureApplicationTests app) => _app = app;
+
+        public async ValueTask DisposeAsync()
+        {
+            await _app.DeleteTables();
+        }
 
         [Fact]
         public async Task Page_Out_Range_No_Content()

@@ -65,6 +65,16 @@ namespace IntegrationTests
             await SeedTestData();
         }
 
+        public async Task DeleteTables()
+        {
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM comments");
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM coupons");
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM orderItems");
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM orders");
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM categories");
+            await DbContext.Database.ExecuteSqlRawAsync("DELETE FROM products");
+        }
+
         private async Task SeedTestData()
         {
             using var scope = Services.CreateScope();

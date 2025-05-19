@@ -13,11 +13,16 @@ using System.Threading.Tasks;
 namespace IntegrationTests
 {
     [Collection(nameof(CollectionTest))]
-    public class GetProductTests
+    public class GetProductTests : IAsyncDisposable
     {
         private readonly ConfigureApplicationTests _app;
 
         public GetProductTests(ConfigureApplicationTests app) => _app = app;
+
+        public async ValueTask DisposeAsync()
+        {
+            await _app.DeleteTables();
+        }
 
         [Fact]
         public async Task Product_doesnt_exists()
